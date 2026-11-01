@@ -1,0 +1,1 @@
+//Gửi ảnh chụp khuôn mặt từ Camera

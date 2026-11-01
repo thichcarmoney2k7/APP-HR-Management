@@ -1,0 +1,1 @@
+//Bắt sự kiện trên từng màn hình FXML (tất cả controller)
