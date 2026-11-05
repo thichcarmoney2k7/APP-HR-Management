@@ -1,1 +1,0 @@
-//Thao tác SQL tự động (Spring Data JPA)
