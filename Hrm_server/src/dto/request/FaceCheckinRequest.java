@@ -29,4 +29,7 @@ public class FaceCheckinRequest {
     public void setImageBase64(String imageBase64) {
         this.imageBase64 = imageBase64;
     }
+    public String getFaceData() {
+        return imageBase64;
+    }
 }

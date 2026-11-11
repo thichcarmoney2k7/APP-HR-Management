@@ -52,7 +52,7 @@ public class Employee {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setEmpployeeId(Long id) {
         this.id = id;
     }
 

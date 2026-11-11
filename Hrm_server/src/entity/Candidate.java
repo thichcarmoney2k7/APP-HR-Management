@@ -28,7 +28,7 @@ public class Candidate {
     private String cvText;
 
     @Column(name = "ai_score")
-    private Integer aiScore = 0;
+    private Double aiScore = 0.0;
 
     @Column(name = "ai_feedback", columnDefinition = "TEXT")
     private String aiFeedback;
@@ -36,11 +36,13 @@ public class Candidate {
     @Column(length = 30)
     private String status = "PENDING_AI"; // PENDING_AI, WAITING_APPROVAL, PASSED, REJECTED
 
+    private String interviewQuestions;
+
     public Candidate() {
     }
 
     public Candidate(Long id, String fullName, String email, String phone, Integer ageOfExperience,
-                     String positionApplied, String cvText, Integer aiScore, String aiFeedback, String status) {
+                     String positionApplied, String cvText, Double aiScore, String aiFeedback, String status, String interviewQuestions) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -51,6 +53,7 @@ public class Candidate {
         this.aiScore = aiScore;
         this.aiFeedback = aiFeedback;
         this.status = status;
+        this.interviewQuestions = interviewQuestions;
     }
 
     public Long getId() {
@@ -85,11 +88,11 @@ public class Candidate {
         this.phone = phone;
     }
 
-    public Integer getAgeOfExperience() {
+    public Integer getYearsOfExperience() {
         return ageOfExperience;
     }
 
-    public void setAgeOfExperience(Integer ageOfExperience) {
+    public void setYearsOfExperience(Integer ageOfExperience) {
         this.ageOfExperience = ageOfExperience;
     }
 
@@ -109,11 +112,11 @@ public class Candidate {
         this.cvText = cvText;
     }
 
-    public Integer getAiScore() {
+    public Double getAiScore() {
         return aiScore;
     }
 
-    public void setAiScore(Integer aiScore) {
+    public void setAiScore(Double aiScore) {
         this.aiScore = aiScore;
     }
 
@@ -131,5 +134,13 @@ public class Candidate {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getInterviewQuestions() {
+        return interviewQuestions;
+    }
+
+    public void setInterviewQuestions(String interviewQuestions) {
+        this.interviewQuestions = interviewQuestions;
     }
 }

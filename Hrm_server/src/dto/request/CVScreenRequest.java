@@ -1,27 +1,64 @@
-//Gửi file PDF CV để phân tích
 package dto.request;
 
 public class CVScreenRequest {
 
-    private Long candidateId;
+    private String fullName;
+    private String email;
+    private String phone;
+    private String positionApplied;
+    private Integer yearsOfExperience;
     private String cvText;
-    private String jobPosition;
 
     public CVScreenRequest() {
     }
 
-    public CVScreenRequest(Long candidateId, String cvText, String jobPosition) {
-        this.candidateId = candidateId;
+    public CVScreenRequest(String fullName, String email, String phone, String positionApplied, Integer yearsOfExperience, String cvText) {
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.positionApplied = positionApplied;
+        this.yearsOfExperience = yearsOfExperience;
         this.cvText = cvText;
-        this.jobPosition = jobPosition;
     }
 
-    public Long getCandidateId() {
-        return candidateId;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setCandidateId(Long candidateId) {
-        this.candidateId = candidateId;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPositionApplied() {
+        return positionApplied;
+    }
+
+    public void setPositionApplied(String positionApplied) {
+        this.positionApplied = positionApplied;
+    }
+
+    public Integer getYearsOfExperience() {
+        return yearsOfExperience;
+    }
+
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
     }
 
     public String getCvText() {
@@ -30,13 +67,5 @@ public class CVScreenRequest {
 
     public void setCvText(String cvText) {
         this.cvText = cvText;
-    }
-
-    public String getJobPosition() {
-        return jobPosition;
-    }
-
-    public void setJobPosition(String jobPosition) {
-        this.jobPosition = jobPosition;
     }
 }

@@ -41,6 +41,14 @@ public class Attendance {
     public Attendance() {
     }
 
+    public Long getEmployeeId() {
+        return id;
+    }
+
+    public void setEmployeeId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
@@ -112,4 +120,6 @@ public class Attendance {
     public void setStatus(String status) {
         this.status = status;
     }
+
+
 }

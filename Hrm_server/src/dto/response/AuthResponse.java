@@ -1,5 +1,6 @@
 package dto.response;
 
+
 public class AuthResponse {
 
     private boolean success;
@@ -78,4 +79,5 @@ public class AuthResponse {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
 }

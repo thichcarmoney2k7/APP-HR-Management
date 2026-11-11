@@ -1,14 +1,17 @@
 package dto.response;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class AttendanceResponse {
 
     private Long attendanceId;
     private Long employeeId;
     private String employeeName;
-    private String workDate;
-    private String checkInTime;
-    private String checkOutTime;
     private Integer lateMinutes;
+    private LocalDate workDate;
+    private LocalTime checkInTime;  // Đổi từ String sang LocalTime
+    private LocalTime checkOutTime; // Đổi từ String sang LocalTime
     private Double workHours;
     private String status;
     private String message;
@@ -16,8 +19,8 @@ public class AttendanceResponse {
     public AttendanceResponse() {
     }
 
-    public AttendanceResponse(Long attendanceId, Long employeeId, String employeeName, String workDate,
-                              String checkInTime, String checkOutTime, Integer lateMinutes,
+    public AttendanceResponse(Long attendanceId, Long employeeId, String employeeName, LocalDate workDate,
+                              LocalTime checkInTime, LocalTime checkOutTime, Integer lateMinutes,
                               Double workHours, String status, String message) {
         this.attendanceId = attendanceId;
         this.employeeId = employeeId;
@@ -55,27 +58,27 @@ public class AttendanceResponse {
         this.employeeName = employeeName;
     }
 
-    public String getWorkDate() {
+    public LocalDate getWorkDate() {
         return workDate;
     }
 
-    public void setWorkDate(String workDate) {
+    public void setWorkDate(LocalDate workDate) {
         this.workDate = workDate;
     }
 
-    public String getCheckInTime() {
+    public LocalTime getCheckInTime() {
         return checkInTime;
     }
 
-    public void setCheckInTime(String checkInTime) {
+    public void setCheckInTime(LocalTime checkInTime) {
         this.checkInTime = checkInTime;
     }
 
-    public String getCheckOutTime() {
+    public LocalTime getCheckOutTime() {
         return checkOutTime;
     }
 
-    public void setCheckOutTime(String checkOutTime) {
+    public void setCheckOutTime(LocalTime checkOutTime) {
         this.checkOutTime = checkOutTime;
     }
 
