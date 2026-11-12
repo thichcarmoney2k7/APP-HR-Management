@@ -24,7 +24,7 @@ public class Task {
     private LocalDate assignedDate;
 
     @Column(name = "due_date")
-    private LocalDate dueDate;
+    private LocalDate deadline;
 
     // Liên kết: Nối Task này với Employee được giao
     @ManyToOne
@@ -34,13 +34,13 @@ public class Task {
     public Task() {
     }
 
-    public Task(Long id, String title, String description, Boolean completed, LocalDate assignedDate, LocalDate dueDate, Employee employee) {
+    public Task(Long id, String title, String description, Boolean completed, LocalDate assignedDate, LocalDate deadline, Employee employee) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.completed = completed;
         this.assignedDate = assignedDate;
-        this.dueDate = dueDate;
+        this.deadline = deadline;
         this.employee = employee;
     }
 
@@ -84,12 +84,12 @@ public class Task {
         this.assignedDate = assignedDate;
     }
 
-    public LocalDate getDueDate() {
-        return dueDate;
+    public LocalDate getDeadline() {
+        return deadline;
     }
 
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
+    public void setdeadline(LocalDate deadline) {
+        this.deadline = deadline;
     }
 
     public Employee getEmployee() {
@@ -98,5 +98,12 @@ public class Task {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+    public Long getEmployeeId() {
+        return id;
+    }
+
+    public void setEmployeeId(Long employee) {
+        this.id= id;
     }
 }

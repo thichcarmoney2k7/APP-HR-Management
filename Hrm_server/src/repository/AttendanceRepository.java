@@ -21,4 +21,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
     // 4. Kiểm tra nhân viên đã chấm công ngày hôm nay chưa
     boolean existsByEmployeeIdAndWorkDate(Long employeeId, LocalDate workDate);
+
+    List<Attendance> findByWorkDate(LocalDate workDate);
 }

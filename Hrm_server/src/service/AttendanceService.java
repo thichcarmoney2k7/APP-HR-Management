@@ -1,4 +1,3 @@
-//Lưu lượt chấm công
 package service;
 
 import dto.request.FaceCheckinRequest;
@@ -13,6 +12,7 @@ import repository.EmployeeRepository;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 public class AttendanceService {
 
-    // Quy định giờ làm việc chuẩn của công ty
     private static final LocalTime WORK_START_TIME = LocalTime.of(8, 0);   // 08:00 AM
     private static final LocalTime WORK_END_TIME = LocalTime.of(17, 0);    // 17:00 PM
 
@@ -41,12 +40,16 @@ public class AttendanceService {
      * 1. Xử lý Check-in bằng Khuôn mặt (Face ID)
      */
     public AttendanceResponse checkIn(FaceCheckinRequest request) {
-        // Tìm thông tin nhân viên
         Optional<Employee> employeeOpt = employeeRepository.findById(request.getEmployeeId());
         if (employeeOpt.isEmpty()) {
             return buildErrorResponse("Không tìm thấy thông tin nhân viên với ID: " + request.getEmployeeId());
         }
         Employee employee = employeeOpt.get();
+
+        // Kiểm tra nhân viên đã đăng ký dữ liệu khuôn mặt mẫu chưa
+        if (employee.getFaceId() == null || employee.getFaceId().isBlank()) {
+            return buildErrorResponse("Nhân viên chưa đăng ký dữ liệu khuôn mặt! Vui lòng đăng ký Face ID trước.");
+        }
 
         // Xác thực khuôn mặt qua FaceRecognitionService
         boolean isFaceValid = faceRecognitionService.verifyFace(employee.getFaceId(), request.getFaceData());
@@ -57,7 +60,7 @@ public class AttendanceService {
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
 
-        // Kiểm tra xem hôm nay nhân viên đã check-in chưa
+        // Kiểm tra đã check-in hôm nay chưa
         Optional<Attendance> existingAttendance = attendanceRepository.findByEmployeeIdAndWorkDate(employee.getId(), today);
         if (existingAttendance.isPresent() && existingAttendance.get().getCheckIn() != null) {
             return buildErrorResponse("Nhân viên " + employee.getFullName() + " đã check-in ngày hôm nay rồi!");
@@ -71,7 +74,6 @@ public class AttendanceService {
             status = "LATE";
         }
 
-        // Khởi tạo hoặc cập nhật bản ghi Attendance
         Attendance attendance = existingAttendance.orElse(new Attendance());
         attendance.setEmployeeId(employee.getId());
         attendance.setWorkDate(today);
@@ -96,13 +98,18 @@ public class AttendanceService {
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
 
-        // Tìm bản ghi check-in trong ngày hôm nay
         Optional<Attendance> attendanceOpt = attendanceRepository.findByEmployeeIdAndWorkDate(employeeId, today);
         if (attendanceOpt.isEmpty() || attendanceOpt.get().getCheckIn() == null) {
             return buildErrorResponse("Bạn chưa check-in ngày hôm nay nên không thể check-out!");
         }
 
         Attendance attendance = attendanceOpt.get();
+
+        // Chặn check-out 2 lần trong ngày
+        if (attendance.getCheckOut() != null) {
+            return buildErrorResponse("Bạn đã check-out ngày hôm nay lúc " + attendance.getCheckOut() + " rồi!");
+        }
+
         attendance.setCheckOut(now);
 
         // Tính phút về sớm (nếu check-out trước 17:00)
@@ -112,9 +119,9 @@ public class AttendanceService {
         }
         attendance.setEarlyLeaveMinutes(earlyLeaveMinutes);
 
-        // Tính tổng số giờ làm việc trong ngày (quy đổi ra giờ, ví dụ: 8.5 giờ)
+        // Tính tổng số giờ làm việc trong ngày
         long durationMinutes = Duration.between(attendance.getCheckIn(), now).toMinutes();
-        double workHours = Math.round((durationMinutes / 60.0) * 100.0) / 100.0;
+        double workHours = Math.max(0.0, Math.round((durationMinutes / 60.0) * 100.0) / 100.0);
         attendance.setWorkHours(workHours);
 
         Attendance saved = attendanceRepository.save(attendance);
@@ -122,19 +129,65 @@ public class AttendanceService {
     }
 
     /**
-     * 3. Lấy lịch sử chấm công của 1 nhân viên
+     * 3. Kiểm tra nhanh hôm nay nhân viên đã chấm công chưa (Repo method 4)
+     */
+    public boolean hasCheckedInToday(Long employeeId) {
+        return attendanceRepository.existsByEmployeeIdAndWorkDate(employeeId, LocalDate.now());
+    }
+
+    /**
+     * 4. Lấy chi tiết bản ghi chấm công hôm nay của 1 nhân viên (Phục vụ hiển thị lên UI JavaFX)
+     */
+    public AttendanceResponse getTodayAttendance(Long employeeId) {
+        String employeeName = getEmployeeName(employeeId);
+        return attendanceRepository.findByEmployeeIdAndWorkDate(employeeId, LocalDate.now())
+                .map(att -> mapToResponse(att, employeeName, "Đã chấm công hôm nay"))
+                .orElseGet(() -> buildErrorResponse("Hôm nay chưa có dữ liệu chấm công"));
+    }
+
+    /**
+     * 5. Lấy toàn bộ lịch sử chấm công của 1 nhân viên (Repo method 2)
      */
     public List<AttendanceResponse> getEmployeeAttendanceHistory(Long employeeId) {
-        Optional<Employee> employeeOpt = employeeRepository.findById(employeeId);
-        String employeeName = employeeOpt.map(Employee::getFullName).orElse("Unknown");
-
+        String employeeName = getEmployeeName(employeeId);
         return attendanceRepository.findByEmployeeIdOrderByWorkDateDesc(employeeId)
                 .stream()
                 .map(att -> mapToResponse(att, employeeName, "Thành công"))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 6. Lấy bảng công theo tháng của 1 nhân viên, định dạng monthYear: "2026-11" (Repo method 3)
+     */
+    public List<AttendanceResponse> getMonthlyAttendance(Long employeeId, String monthYear) {
+        YearMonth ym = YearMonth.parse(monthYear);
+        LocalDate startDate = ym.atDay(1);
+        LocalDate endDate = ym.atEndOfMonth();
+        String employeeName = getEmployeeName(employeeId);
+
+        return attendanceRepository.findByEmployeeIdAndWorkDateBetween(employeeId, startDate, endDate)
+                .stream()
+                .map(att -> mapToResponse(att, employeeName, "Thành công"))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 7. Lấy danh sách chấm công toàn bộ nhân viên theo ngày (Repo method 5 - Dành cho Manager/HR)
+     */
+    public List<AttendanceResponse> getAllAttendanceByDate(LocalDate date) {
+        return attendanceRepository.findByWorkDate(date)
+                .stream()
+                .map(att -> mapToResponse(att, getEmployeeName(att.getEmployeeId()), "Thành công"))
+                .collect(Collectors.toList());
+    }
+
     // --- Helper Methods ---
+
+    private String getEmployeeName(Long employeeId) {
+        return employeeRepository.findById(employeeId)
+                .map(Employee::getFullName)
+                .orElse("Unknown");
+    }
 
     private AttendanceResponse mapToResponse(Attendance attendance, String employeeName, String message) {
         AttendanceResponse response = new AttendanceResponse();

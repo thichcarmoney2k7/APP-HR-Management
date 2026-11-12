@@ -1,4 +1,5 @@
-package entity;//Hồ sơ nhân sự (Headcount)
+package entity;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -20,8 +21,8 @@ public class Employee {
     @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;
 
-    @Column(name = "age_of_experience")
-    private Integer ageOfExperience;
+    @Column(name = "years_of_experience")
+    private Integer yearsOfExperience;
 
     @Column(name = "base_salary", nullable = false)
     private Double baseSalary;
@@ -48,11 +49,28 @@ public class Employee {
     public Employee() {
     }
 
+    public Employee(Long id, User user, Candidate candidate, String fullName, Integer yearsOfExperience,
+                    Double baseSalary, String faceId, Integer departmentId, String email, String phone,
+                    String position, Employee manager) {
+        this.id = id;
+        this.user = user;
+        this.candidate = candidate;
+        this.fullName = fullName;
+        this.yearsOfExperience = yearsOfExperience;
+        this.baseSalary = baseSalary;
+        this.faceId = faceId;
+        this.departmentId = departmentId;
+        this.email = email;
+        this.phone = phone;
+        this.position = position;
+        this.manager = manager;
+    }
+
     public Long getId() {
         return id;
     }
 
-    public void setEmpployeeId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -80,12 +98,12 @@ public class Employee {
         this.fullName = fullName;
     }
 
-    public Integer getAgeOfExperience() {
-        return ageOfExperience;
+    public Integer getYearsOfExperience() {
+        return yearsOfExperience;
     }
 
-    public void setAgeOfExperience(Integer ageOfExperience) {
-        this.ageOfExperience = ageOfExperience;
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
     }
 
     public Double getBaseSalary() {

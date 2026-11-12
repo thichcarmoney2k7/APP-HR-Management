@@ -24,10 +24,9 @@ public class CandidateService {
     }
 
     /**
-     * 1. Lọc CV tự động bằng AI và lưu ứng viên vào Database
+     * 1. Lọc CV tự động bằng AI và lưu/cập nhật ứng viên vào Database
      */
     public CVExtractResponse screenAndSaveCandidate(CVScreenRequest request) {
-        // Tạo Prompt chuẩn gửi Gemini AI
         String prompt = String.format(
                 "Bạn là chuyên gia tuyển dụng. Hãy phân tích và chấm điểm CV sau cho vị trí: %s.\n" +
                         "Nội dung CV:\n%s\n\n" +
@@ -38,14 +37,14 @@ public class CandidateService {
                 request.getCvText()
         );
 
-        // Gọi Gemini API
         String aiResponse = geminiService.callGeminiAPI(prompt);
-
-        // Trích xuất điểm số từ phản hồi AI
         double aiScore = extractScoreFromAiResponse(aiResponse);
 
-        // Khởi tạo và lưu Entity Candidate
-        Candidate candidate = new Candidate();
+        // Nếu ứng viên đã đăng ký tài khoản trước đó qua email thì cập nhật hồ sơ, chưa có thì tạo mới
+        Candidate candidate = (request.getEmail() != null && !request.getEmail().isBlank())
+                ? candidateRepository.findByEmail(request.getEmail()).orElse(new Candidate())
+                : new Candidate();
+
         candidate.setFullName(request.getFullName());
         candidate.setEmail(request.getEmail());
         candidate.setPhone(request.getPhone());
@@ -85,7 +84,50 @@ public class CandidateService {
     }
 
     /**
-     * 4. Cập nhật trạng thái ứng viên (APPROVED / REJECTED)
+     * 4. Tìm ứng viên theo Email (Repo method 1)
+     */
+    public CVExtractResponse getCandidateByEmail(String email) {
+        Optional<Candidate> candidateOpt = candidateRepository.findByEmail(email);
+        if (candidateOpt.isEmpty()) {
+            CVExtractResponse response = new CVExtractResponse();
+            response.setMessage("Không tìm thấy ứng viên có email: " + email);
+            return response;
+        }
+        return mapToResponse(candidateOpt.get(), "Thành công");
+    }
+
+    /**
+     * 5. Lọc danh sách ứng viên theo vị trí ứng tuyển (Repo method 2)
+     */
+    public List<CVExtractResponse> getCandidatesByPosition(String positionApplied) {
+        return candidateRepository.findByPositionApplied(positionApplied)
+                .stream()
+                .map(c -> mapToResponse(c, "Thành công"))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 6. Lọc danh sách ứng viên theo trạng thái: PENDING, APPROVED, REJECTED, HIRED (Repo method 3)
+     */
+    public List<CVExtractResponse> getCandidatesByStatus(String status) {
+        return candidateRepository.findByStatus(status)
+                .stream()
+                .map(c -> mapToResponse(c, "Thành công"))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 7. Lọc danh sách ứng viên đạt điểm AI từ mức tối thiểu trở lên, sắp xếp giảm dần (Repo method 4)
+     */
+    public List<CVExtractResponse> getTopCandidatesByScore(Double minScore) {
+        return candidateRepository.findByAiScoreGreaterThanEqualOrderByAiScoreDesc(minScore)
+                .stream()
+                .map(c -> mapToResponse(c, "Thành công"))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 8. Cập nhật trạng thái ứng viên (APPROVED / REJECTED)
      */
     public CVExtractResponse updateCandidateStatus(Long id, String status) {
         Optional<Candidate> candidateOpt = candidateRepository.findById(id);
@@ -103,7 +145,7 @@ public class CandidateService {
     }
 
     /**
-     * 5. Xóa ứng viên
+     * 9. Xóa ứng viên
      */
     public boolean deleteCandidate(Long id) {
         if (candidateRepository.existsById(id)) {
@@ -127,7 +169,7 @@ public class CandidateService {
         } catch (Exception e) {
             System.err.println("Lỗi bóc tách điểm AI: " + e.getMessage());
         }
-        return 50.0; // Trả về điểm mặc định nếu AI không đúng định dạng
+        return 50.0;
     }
 
     private CVExtractResponse mapToResponse(Candidate candidate, String message) {
