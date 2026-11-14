@@ -1,4 +1,5 @@
 package entity;//Dữ liệu ứng viên & kết quả trích xuất CV
+import enums.CandidateStatus;
 import jakarta.persistence.*;
 
 @Entity
@@ -33,8 +34,9 @@ public class Candidate {
     @Column(name = "ai_feedback", columnDefinition = "TEXT")
     private String aiFeedback;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 30)
-    private String status = "PENDING_AI"; // PENDING_AI, WAITING_APPROVAL, PASSED, REJECTED
+    private CandidateStatus status = CandidateStatus.PENDING;
 
     private String interviewQuestions;
 
@@ -42,7 +44,7 @@ public class Candidate {
     }
 
     public Candidate(Long id, String fullName, String email, String phone, Integer ageOfExperience,
-                     String positionApplied, String cvText, Double aiScore, String aiFeedback, String status, String interviewQuestions) {
+                     String positionApplied, String cvText, Double aiScore, String aiFeedback, CandidateStatus status, String interviewQuestions) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -128,11 +130,11 @@ public class Candidate {
         this.aiFeedback = aiFeedback;
     }
 
-    public String getStatus() {
+    public CandidateStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(CandidateStatus status) {
         this.status = status;
     }
 

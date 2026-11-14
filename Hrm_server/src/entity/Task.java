@@ -1,5 +1,6 @@
 package entity;
 
+import enums.TaskStatus;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -26,10 +27,15 @@ public class Task {
     @Column(name = "due_date")
     private LocalDate deadline;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private TaskStatus status = TaskStatus.PENDING;
+
     // Liên kết: Nối Task này với Employee được giao
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
+
 
     public Task() {
     }

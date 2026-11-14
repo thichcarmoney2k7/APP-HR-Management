@@ -3,7 +3,9 @@ package service;
 import dto.request.CVScreenRequest;
 import dto.response.CVExtractResponse;
 import entity.Candidate;
+import enums.CandidateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import repository.CandidateRepository;
 
@@ -13,6 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class CandidateService {
+    @Value("${recruitment.default-passing-score:70.0}")
+    private double defaultPassingScore;
 
     private final CandidateRepository candidateRepository;
     private final GeminiService geminiService;
@@ -45,6 +49,11 @@ public class CandidateService {
                 ? candidateRepository.findByEmail(request.getEmail()).orElse(new Candidate())
                 : new Candidate();
 
+
+        double threshold = (request.getPassingScore() != null)
+                ? request.getPassingScore()
+                : defaultPassingScore;
+
         candidate.setFullName(request.getFullName());
         candidate.setEmail(request.getEmail());
         candidate.setPhone(request.getPhone());
@@ -53,11 +62,13 @@ public class CandidateService {
         candidate.setCvText(request.getCvText());
         candidate.setAiScore(aiScore);
         candidate.setAiFeedback(aiResponse);
-        candidate.setStatus(aiScore >= 70.0 ? "APPROVED" : "REJECTED");
+
+        // So sánh với mức điểm động thay vì 70.0 cố định
+        candidate.setStatus(aiScore >= threshold ? CandidateStatus.APPROVED : CandidateStatus.REJECTED);
 
         Candidate savedCandidate = candidateRepository.save(candidate);
 
-        return mapToResponse(savedCandidate, "Lọc CV và lưu ứng viên thành công!");
+        return mapToResponse(savedCandidate, "Lọc CV thành công (Điểm chuẩn: " + threshold + ")!");
     }
 
     /**
@@ -137,8 +148,17 @@ public class CandidateService {
             return response;
         }
 
+        CandidateStatus statusEnum;
+        try {
+            statusEnum = CandidateStatus.valueOf(status.trim().toUpperCase());
+        } catch (Exception e) {
+            CVExtractResponse response = new CVExtractResponse();
+            response.setMessage("Trạng thái không hợp lệ: " + status);
+            return response;
+        }
+
         Candidate candidate = candidateOpt.get();
-        candidate.setStatus(status);
+        candidate.setStatus(statusEnum);
         Candidate updated = candidateRepository.save(candidate);
 
         return mapToResponse(updated, "Cập nhật trạng thái thành công!");
@@ -182,7 +202,7 @@ public class CandidateService {
         response.setYearsOfExperience(candidate.getYearsOfExperience());
         response.setAiScore(candidate.getAiScore());
         response.setAiFeedback(candidate.getAiFeedback());
-        response.setStatus(candidate.getStatus());
+        response.setStatus(candidate.getStatus() != null ? candidate.getStatus().name() : null);
         response.setInterviewQuestions(candidate.getInterviewQuestions());
         response.setMessage(message);
         return response;

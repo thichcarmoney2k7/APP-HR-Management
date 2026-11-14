@@ -4,6 +4,8 @@ package service;
 import entity.Candidate;
 import entity.Employee;
 import entity.User;
+import enums.CandidateStatus;
+import enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +40,7 @@ public class EmployeeService {
      */
     @Transactional
     public Employee hireCandidateToEmployee(Long candidateId, Double baseSalary, Integer departmentId, Long managerId) {
-        // Kiểm tra ứng viên đã được tuyển trước đó chưa (Repo method 3: findByCandidateId)
+        // 1. Kiểm tra ứng viên đã được tuyển trước đó chưa
         Optional<Employee> existingEmp = employeeRepository.findByCandidateId(candidateId);
         if (existingEmp.isPresent()) {
             throw new RuntimeException("Ứng viên này đã có hồ sơ nhân viên chính thức!");
@@ -47,11 +49,11 @@ public class EmployeeService {
         Candidate candidate = candidateRepository.findById(candidateId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy ứng viên có ID: " + candidateId));
 
-        // Cập nhật trạng thái Candidate
-        candidate.setStatus("HIRED");
+        // 2. Cập nhật trạng thái Candidate bằng Enum
+        candidate.setStatus(CandidateStatus.HIRED);
         candidateRepository.save(candidate);
 
-        // Khởi tạo hồ sơ Employee mới
+        // 3. Khởi tạo hồ sơ Employee mới
         Employee employee = new Employee();
         employee.setCandidate(candidate);
         employee.setFullName(candidate.getFullName());
@@ -67,12 +69,12 @@ public class EmployeeService {
             employeeRepository.findById(managerId).ifPresent(employee::setManager);
         }
 
-        // Nâng cấp quyền tài khoản User từ CANDIDATE -> EMPLOYEE
-        if (candidate.getEmail() != null) {
-            Optional<User> userOpt = userRepository.findByUsername(candidate.getEmail());
+        // 4. Nâng cấp quyền tài khoản User từ CANDIDATE -> EMPLOYEE bằng Enum
+        if (candidate.getEmail() != null && !candidate.getEmail().isBlank()) {
+            Optional<User> userOpt = userRepository.findByUsername(candidate.getEmail().trim());
             if (userOpt.isPresent()) {
                 User user = userOpt.get();
-                user.setRole("EMPLOYEE");
+                user.setRole(Role.EMPLOYEE);
                 userRepository.save(user);
                 employee.setUser(user);
             }

@@ -1,6 +1,7 @@
 //Dữ liệu chấm công khuôn mặt
 package entity;
 
+import enums.AttendanceStatus;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -35,8 +36,9 @@ public class Attendance {
     @Column(name = "work_hours")
     private Double workHours = 0.0;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private String status = "ON_TIME"; // ON_TIME, LATE, ABSENT
+    private AttendanceStatus status = AttendanceStatus.ON_TIME;
 
     public Attendance() {
     }
@@ -113,11 +115,11 @@ public class Attendance {
         this.workHours = workHours;
     }
 
-    public String getStatus() {
+    public AttendanceStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AttendanceStatus status) {
         this.status = status;
     }
 

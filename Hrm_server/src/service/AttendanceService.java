@@ -4,6 +4,7 @@ import dto.request.FaceCheckinRequest;
 import dto.response.AttendanceResponse;
 import entity.Attendance;
 import entity.Employee;
+import enums.AttendanceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.AttendanceRepository;
@@ -39,6 +40,9 @@ public class AttendanceService {
     /**
      * 1. Xử lý Check-in bằng Khuôn mặt (Face ID)
      */
+    // Nhớ thêm dòng import này ở đầu file AttendanceService.java:
+// import enums.AttendanceStatus;
+
     public AttendanceResponse checkIn(FaceCheckinRequest request) {
         Optional<Employee> employeeOpt = employeeRepository.findById(request.getEmployeeId());
         if (employeeOpt.isEmpty()) {
@@ -46,12 +50,12 @@ public class AttendanceService {
         }
         Employee employee = employeeOpt.get();
 
-        // Kiểm tra nhân viên đã đăng ký dữ liệu khuôn mặt mẫu chưa
+        // 1. Kiểm tra nhân viên đã đăng ký dữ liệu khuôn mặt mẫu chưa
         if (employee.getFaceId() == null || employee.getFaceId().isBlank()) {
             return buildErrorResponse("Nhân viên chưa đăng ký dữ liệu khuôn mặt! Vui lòng đăng ký Face ID trước.");
         }
 
-        // Xác thực khuôn mặt qua FaceRecognitionService
+        // 2. Xác thực khuôn mặt qua FaceRecognitionService
         boolean isFaceValid = faceRecognitionService.verifyFace(employee.getFaceId(), request.getFaceData());
         if (!isFaceValid) {
             return buildErrorResponse("Xác thực khuôn mặt không hợp lệ!");
@@ -60,20 +64,22 @@ public class AttendanceService {
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
 
-        // Kiểm tra đã check-in hôm nay chưa
+        // 3. Kiểm tra đã check-in hôm nay chưa
         Optional<Attendance> existingAttendance = attendanceRepository.findByEmployeeIdAndWorkDate(employee.getId(), today);
         if (existingAttendance.isPresent() && existingAttendance.get().getCheckIn() != null) {
             return buildErrorResponse("Nhân viên " + employee.getFullName() + " đã check-in ngày hôm nay rồi!");
         }
 
-        // Tính phút đi muộn (nếu check-in sau 08:00)
+        // 4. Tính phút đi muộn & gán trạng thái bằng Enum AttendanceStatus
         int lateMinutes = 0;
-        String status = "PRESENT";
+        AttendanceStatus status = AttendanceStatus.ON_TIME;
+
         if (now.isAfter(WORK_START_TIME)) {
             lateMinutes = (int) Duration.between(WORK_START_TIME, now).toMinutes();
-            status = "LATE";
+            status = AttendanceStatus.LATE;
         }
 
+        // 5. Lưu thông tin check-in vào Database
         Attendance attendance = existingAttendance.orElse(new Attendance());
         attendance.setEmployeeId(employee.getId());
         attendance.setWorkDate(today);
@@ -82,7 +88,12 @@ public class AttendanceService {
         attendance.setStatus(status);
 
         Attendance saved = attendanceRepository.save(attendance);
-        return mapToResponse(saved, employee.getFullName(), "Check-in thành công!");
+
+        String message = (status == AttendanceStatus.LATE)
+                ? "Check-in thành công (Đi muộn " + lateMinutes + " phút)!"
+                : "Check-in đúng giờ thành công!";
+
+        return mapToResponse(saved, employee.getFullName(), message);
     }
 
     /**
@@ -199,7 +210,7 @@ public class AttendanceService {
         response.setCheckOutTime(attendance.getCheckOut());
         response.setLateMinutes(attendance.getLateMinutes() != null ? attendance.getLateMinutes() : 0);
         response.setWorkHours(attendance.getWorkHours() != null ? attendance.getWorkHours() : 0.0);
-        response.setStatus(attendance.getStatus());
+        response.setStatus(attendance.getStatus() != null ? attendance.getStatus().name() : null);
         response.setMessage(message);
         return response;
     }

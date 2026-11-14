@@ -8,17 +8,19 @@ public class CVScreenRequest {
     private String positionApplied;
     private Integer yearsOfExperience;
     private String cvText;
+    private Double passingScore;
 
     public CVScreenRequest() {
     }
 
-    public CVScreenRequest(String fullName, String email, String phone, String positionApplied, Integer yearsOfExperience, String cvText) {
+    public CVScreenRequest(String fullName, String email, String phone, String positionApplied, Integer yearsOfExperience, String cvText, Double passingScore) {
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
         this.positionApplied = positionApplied;
         this.yearsOfExperience = yearsOfExperience;
         this.cvText = cvText;
+        this.passingScore = passingScore;
     }
 
     public String getFullName() {
@@ -67,5 +69,12 @@ public class CVScreenRequest {
 
     public void setCvText(String cvText) {
         this.cvText = cvText;
+    }
+    public Double getPassingScore() {
+        return passingScore;
+    }
+
+    public void setPassingScore(Double passingScore) {
+        this.passingScore = passingScore;
     }
 }

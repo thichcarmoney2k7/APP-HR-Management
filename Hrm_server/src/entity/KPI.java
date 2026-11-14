@@ -1,6 +1,7 @@
 //Danh mục và trạng thái hoàn thành KPI
 package entity;
 
+import enums.KPIStatus;
 import jakarta.persistence.*;
 
 @Entity
@@ -32,6 +33,10 @@ public class KPI {
 
     @Column(name = "bonus_amount")
     private Double bonusAmount = 0.0;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private KPIStatus status = KPIStatus.EVALUATED;
 
     public KPI() {
     }

@@ -1,5 +1,6 @@
 package entity;
 
+import enums.Role;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,15 +17,16 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private String role; // "MANAGER", "EMPLOYEE", "HR"
+    private Role role;
 
     // Constructor không tham số (Bắt buộc phải có cho JPA)
     public User() {
     }
 
     // Constructor đầy đủ tham số
-    public User(Long id, String username, String password, String role) {
+    public User(Long id, String username, String password, Role role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -56,11 +58,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }

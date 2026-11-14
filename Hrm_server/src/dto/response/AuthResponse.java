@@ -1,6 +1,8 @@
 package dto.response;
 
 
+import enums.Role;
+
 public class AuthResponse {
 
     private boolean success;
@@ -14,7 +16,7 @@ public class AuthResponse {
     public AuthResponse() {
     }
 
-    public AuthResponse(boolean success, String message, Long userId, String username, String role, Long employeeId, String fullName) {
+    public AuthResponse(boolean success, String message, Long userId, String username,String role, Long employeeId, String fullName) {
         this.success = success;
         this.message = message;
         this.userId = userId;

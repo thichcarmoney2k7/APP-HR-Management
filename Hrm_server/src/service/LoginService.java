@@ -7,6 +7,8 @@ import dto.response.AuthResponse;
 import entity.Candidate;
 import entity.Employee;
 import entity.User;
+import enums.CandidateStatus;
+import enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,48 +41,57 @@ public class LoginService {
     public AuthResponse registerCandidate(RegisterRequest request) {
         AuthResponse response = new AuthResponse();
 
-        // Nếu không truyền username riêng thì lấy luôn email làm username
-        String username = (request.getUsername() != null && !request.getUsername().isBlank())
-                ? request.getUsername().trim()
-                : request.getEmail().trim();
+        String email = (request.getEmail() != null && !request.getEmail().isBlank())
+                ? request.getEmail().trim()
+                : null;
 
-        if (userRepository.findByUsername(username).isPresent()) {
+        // Dùng email làm username để đồng bộ 100% với bước nâng quyền lên Employee sau này
+        String username = (email != null)
+                ? email
+                : (request.getUsername() != null ? request.getUsername().trim() : "");
+
+        if (username.isBlank()) {
             response.setSuccess(false);
-            response.setMessage("Tên đăng nhập hoặc Email đã được sử dụng!");
+            response.setMessage("Vui lòng nhập Email để đăng ký tài khoản!");
             return response;
         }
 
-        if (request.getEmail() != null && candidateRepository.findByEmail(request.getEmail()).isPresent()) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            response.setSuccess(false);
+            response.setMessage("Email hoặc tên đăng nhập đã được sử dụng!");
+            return response;
+        }
+
+        if (email != null && candidateRepository.findByEmail(email).isPresent()) {
             response.setSuccess(false);
             response.setMessage("Email này đã tồn tại trong hồ sơ ứng viên!");
             return response;
         }
 
-        // Tạo User account
+        // 1. Tạo tài khoản User với vai trò mặc định là CANDIDATE
         User user = new User();
         user.setUsername(username);
         user.setPassword(request.getPassword());
-        user.setRole("CANDIDATE");
+        user.setRole(Role.CANDIDATE);
         User savedUser = userRepository.save(user);
 
-        // Tạo Hồ sơ Candidate
+        // 2. Tạo hồ sơ Candidate ở trạng thái chờ chấm/duyệt (PENDING)
         Candidate candidate = new Candidate();
         candidate.setFullName(request.getFullName());
-        candidate.setEmail(request.getEmail() != null ? request.getEmail().trim() : username);
+        candidate.setEmail(email != null ? email : username);
         candidate.setPhone(request.getPhone());
         candidate.setPositionApplied(request.getPositionApplied());
         candidate.setYearsOfExperience(request.getYearsOfExperience());
         candidate.setCvText(request.getCvText());
-        candidate.setStatus("PENDING");
+        candidate.setStatus(CandidateStatus.PENDING);
         Candidate savedCandidate = candidateRepository.save(candidate);
 
+        // 3. Trả về Response (chuyển Enum sang String bằng .name())
         response.setSuccess(true);
         response.setUserId(savedUser.getId());
         response.setUsername(savedUser.getUsername());
-        response.setRole(savedUser.getRole());
+        response.setRole(savedUser.getRole().name());
         response.setFullName(savedCandidate.getFullName());
-        // Nếu AuthResponse của bạn đã thêm trường candidateId thì mở comment dòng dưới:
-        // response.setCandidateId(savedCandidate.getId());
         response.setMessage("Đăng ký tài khoản ứng viên thành công!");
 
         return response;
@@ -92,7 +103,15 @@ public class LoginService {
     public AuthResponse login(LoginRequest request) {
         AuthResponse response = new AuthResponse();
 
-        Optional<User> userOpt = userRepository.findByUsername(request.getUsername());
+        if (request.getUsername() == null || request.getUsername().isBlank()
+                || request.getPassword() == null || request.getPassword().isBlank()) {
+            response.setSuccess(false);
+            response.setMessage("Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!");
+            return response;
+        }
+
+        String username = request.getUsername().trim();
+        Optional<User> userOpt = userRepository.findByUsername(username);
         if (userOpt.isEmpty()) {
             response.setSuccess(false);
             response.setMessage("Tài khoản không tồn tại!");
@@ -110,17 +129,18 @@ public class LoginService {
         Long employeeId = null;
         String fullName = user.getUsername();
 
-        // Trường hợp 1: Đã là Employee chính thức
+        // Trường hợp 1: Đã có hồ sơ Employee chính thức (EMPLOYEE, MANAGER, HR)
         Optional<Employee> empOpt = employeeRepository.findByUserId(user.getId());
         if (empOpt.isPresent()) {
             Employee emp = empOpt.get();
             employeeId = emp.getId();
             fullName = emp.getFullName();
-        } else if ("CANDIDATE".equalsIgnoreCase(user.getRole())) {
+        } else if (user.getRole() == Role.CANDIDATE) {
             // Trường hợp 2: Đang là Ứng viên -> Lấy họ tên thật từ bảng Candidate
             Optional<Candidate> candOpt = candidateRepository.findByEmail(user.getUsername());
             if (candOpt.isPresent()) {
                 fullName = candOpt.get().getFullName();
+                // Nếu sau này AuthResponse có thêm candidateId thì mở comment dòng dưới:
                 // response.setCandidateId(candOpt.get().getId());
             }
         }
@@ -128,14 +148,13 @@ public class LoginService {
         response.setSuccess(true);
         response.setUserId(user.getId());
         response.setUsername(user.getUsername());
-        response.setRole(user.getRole());
+        response.setRole(user.getRole() != null ? user.getRole().name() : null);
         response.setEmployeeId(employeeId);
         response.setFullName(fullName);
         response.setMessage("Đăng nhập thành công!");
 
         return response;
     }
-
     /**
      * 3. Đăng xuất
      */

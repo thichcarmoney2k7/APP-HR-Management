@@ -1,6 +1,8 @@
 //# Tổng hợp báo cáo hiệu suất cho Admin
 package dto.response;
 
+import enums.KPIStatus;
+
 public class KPISummaryResponse {
 
     private Long employeeId;
@@ -31,6 +33,7 @@ public class KPISummaryResponse {
         this.totalLateMinutes = totalLateMinutes;
         this.aiFeedback = aiFeedback;
         this.bonusAmount = bonusAmount;
+
     }
 
     public Long getEmployeeId() {

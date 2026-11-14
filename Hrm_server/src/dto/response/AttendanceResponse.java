@@ -1,5 +1,7 @@
 package dto.response;
 
+import enums.AttendanceStatus;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 

@@ -1,5 +1,7 @@
 package dto.response;
 
+import enums.TaskStatus;
+
 import java.time.LocalDate;
 
 public class TaskResponse {
