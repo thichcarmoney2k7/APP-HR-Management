@@ -3,8 +3,7 @@ package enums;
 public enum Role {
     CANDIDATE("Ứng viên"),
     EMPLOYEE("Nhân viên"),
-    MANAGER("Quản lý"),
-    HR("Nhân sự");
+    MANAGER("Quản lý");
 
     private final String displayName;
 
