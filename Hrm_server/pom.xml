@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
+        <version>3.5.14</version>
         <relativePath/>
     </parent>
 
@@ -18,17 +18,17 @@
     <description>Server Backend for HRM AI System</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>25</java.version>
     </properties>
 
     <dependencies>
-        <!-- Spring Data JPA (Giải quyết triệt để lỗi import jakarta.persistence & Repository) -->
+        <!-- Spring Data JPA: Kết nối Database & tự động tạo bảng từ @Entity -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- Spring Boot Web (Xử lý REST Controller API) -->
+        <!-- Spring Boot Web: Mở REST API cho Hrm_client gọi tới -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -41,6 +41,7 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Gson: Chuyển đổi dữ liệu JSON -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -55,9 +56,16 @@
         </dependency>
     </dependencies>
 
-
-
     <build>
+        <sourceDirectory>src</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
