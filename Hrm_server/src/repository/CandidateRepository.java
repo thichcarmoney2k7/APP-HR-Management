@@ -19,4 +19,5 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
 
     // 4. Lọc danh sách ứng viên có điểm AI đánh giá cao (sắp xếp giảm dần)
     List<Candidate> findByAiScoreGreaterThanEqualOrderByAiScoreDesc(Double minScore);
+
 }

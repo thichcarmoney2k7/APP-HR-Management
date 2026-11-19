@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.CandidateRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class InterviewService {
@@ -81,4 +83,18 @@ public class InterviewService {
 
         return response;
     }
+
+    public List<InterviewResponse> getInterviewsByCandidate(Long candidateId) {
+        Candidate candidate = candidateRepository.findById(candidateId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy ứng viên có ID: " + candidateId));
+
+        InterviewGenerateRequest request = new InterviewGenerateRequest();
+        request.setCandidateId(candidate.getId());
+        request.setPosition(candidate.getPositionApplied());
+        request.setJobDescription("");
+
+        InterviewResponse response = generateInterviewQuestions(request);
+        return List.of(response);
+    }
 }
+

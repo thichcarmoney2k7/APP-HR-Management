@@ -17,4 +17,5 @@ public interface KPIRepository extends JpaRepository<KPI, Long> {
 
     // 3. Lấy danh sách KPI của toàn bộ công ty trong 1 tháng (dùng cho Admin xem báo cáo)
     List<KPI> findByMonthYear(String monthYear);
+
 }
