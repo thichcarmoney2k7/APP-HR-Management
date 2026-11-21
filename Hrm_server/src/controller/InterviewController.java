@@ -21,6 +21,7 @@ public class InterviewController {
         this.interviewService = interviewService;
     }
 
+    // 1. Sinh mới bộ câu hỏi phỏng vấn bằng Gemini AI
     @PostMapping("/generate")
     public ResponseEntity<?> generateQuestions(@RequestBody InterviewGenerateRequest request) {
         try {
@@ -32,6 +33,7 @@ public class InterviewController {
         }
     }
 
+    // 2. Lấy câu hỏi phỏng vấn của ứng viên (đã lưu trong DB, nếu chưa có mới gọi AI sinh)
     @GetMapping("/candidate/{id}")
     public ResponseEntity<?> getQuestionsByCandidate(@PathVariable Long id) {
         try {
@@ -40,6 +42,20 @@ public class InterviewController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("success", false, "message", e.getMessage()));
+        }
+    }
+
+    // 3. Nộp câu trả lời để Gemini AI chấm điểm phỏng vấn
+    @PostMapping("/evaluate")
+    public ResponseEntity<?> evaluateInterview(@RequestBody Map<String, String> payload) {
+        try {
+            Long candidateId = Long.parseLong(payload.get("candidateId"));
+            String answers = payload.get("answers");
+            InterviewResponse response = interviewService.evaluateInterviewAnswers(candidateId, answers);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("success", false, "message", "Lỗi chấm điểm phỏng vấn: " + e.getMessage()));
         }
     }
 }

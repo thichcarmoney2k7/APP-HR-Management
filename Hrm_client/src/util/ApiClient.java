@@ -8,6 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -31,6 +32,10 @@ public class ApiClient {
                     new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_TIME)))
             .registerTypeAdapter(LocalTime.class, (JsonDeserializer<LocalTime>) (json, type, ctx) ->
                     LocalTime.parse(json.getAsString(), DateTimeFormatter.ISO_LOCAL_TIME))
+            .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (src, type, ctx) ->
+                    new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)))
+            .registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>) (json, type, ctx) ->
+                    LocalDateTime.parse(json.getAsString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME))
             .create();
 
     // 1. Gọi GET trả về 1 đối tượng
@@ -120,3 +125,4 @@ public class ApiClient {
         throw new RuntimeException(errorMessage);
     }
 }
+

@@ -50,5 +50,11 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.21.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:6.2.18" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.21.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:25" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:25" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:25" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:25" level="project" />
+    <orderEntry type="library" name="Maven: com.github.sarxos:webcam-capture:0.3.12" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-swing:win:25" level="project" />
   </component>
 </module>

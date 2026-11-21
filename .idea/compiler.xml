@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Hrm_server" />
+        <module name="Hrm_client" />
       </profile>
     </annotationProcessing>
   </component>

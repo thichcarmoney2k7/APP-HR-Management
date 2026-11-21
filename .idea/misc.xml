@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/Hrm_server/pom.xml" />
+        <option value="$PROJECT_DIR$/Hrm_client/pom.xml" />
       </list>
     </option>
   </component>
