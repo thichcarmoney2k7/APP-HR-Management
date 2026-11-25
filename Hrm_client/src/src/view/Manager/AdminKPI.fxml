@@ -12,52 +12,55 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToWidth="true" styleClass="root-bg" stylesheets="@../dashboard.css"
+<ScrollPane fitToWidth="true" styleClass="kpi-root" stylesheets="@manager.css"
             xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controller.AdminKPIController">
 
     <VBox spacing="16.0" maxWidth="Infinity">
         <padding>
-            <Insets bottom="22.0" left="22.0" right="22.0" top="10.0"/>
+            <Insets bottom="24.0" left="22.0" right="22.0" top="10.0"/>
         </padding>
 
-        <!-- Header -->
-        <HBox alignment="CENTER_LEFT" spacing="16.0" maxWidth="Infinity" styleClass="welcome-banner">
-            <ImageView fitHeight="72.0" fitWidth="105.0" preserveRatio="true">
+        <!-- Header rực rỡ -->
+        <HBox alignment="CENTER_LEFT" spacing="16.0" maxWidth="Infinity" styleClass="kpi-hero">
+            <ImageView fitHeight="76.0" fitWidth="112.0" preserveRatio="true"
+                       style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 10, 0, 0, 3);">
                 <image>
-                    <Image url="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&amp;fit=crop&amp;w=400&amp;q=80"
+                    <Image url="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&amp;fit=crop&amp;w=500&amp;q=80"
                            backgroundLoading="true"/>
                 </image>
             </ImageView>
             <VBox spacing="4.0" HBox.hgrow="ALWAYS">
-                <Label text="Đánh giá KPI &amp; Thưởng hiệu suất bằng AI"
-                       style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                <Label text="✦ PERFORMANCE &amp; AI KPI ANALYTICS" styleClass="kpi-hero-tag"/>
+                <Label text="Đánh giá KPI &amp; Thưởng hiệu suất bằng AI" styleClass="kpi-hero-title" wrapText="true"/>
                 <Label text="Tổng hợp tiến độ công việc, chuyên cần và để Gemini AI đánh giá KPI theo tháng."
-                       style="-fx-text-fill: #64748b; -fx-font-size: 12.5px;" wrapText="true"/>
+                       styleClass="kpi-hero-sub" wrapText="true"/>
             </VBox>
         </HBox>
 
         <!-- Thanh chọn nhân viên & tháng -->
-        <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="quick-card" style="-fx-cursor: default;">
-            <Label text="Nhân viên:" style="-fx-font-weight: bold;"/>
-            <ComboBox fx:id="cboEmployee" prefWidth="240.0"/>
-            <Label text="Tháng (yyyy-MM):" style="-fx-font-weight: bold;"/>
-            <TextField fx:id="txtMonthYear" prefWidth="120.0" promptText="2026-11"/>
-            <Button fx:id="btnEvaluateKPI" onAction="#handleEvaluateKPI" text="Đánh giá KPI bằng AI"
-                    style="-fx-background-color: #7c3aed; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 14; -fx-background-radius: 7; -fx-cursor: hand;"/>
-            <Button fx:id="btnLoadReport" onAction="#loadCompanyReport" text="Tải báo cáo tháng"
-                    styleClass="nav-arrow-btn"/>
+        <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="kpi-card-purple">
+            <Label text="Nhân viên:" styleClass="kpi-label"/>
+            <ComboBox fx:id="cboEmployee" prefWidth="240.0" styleClass="kpi-combo"/>
+            <Label text="Tháng (yyyy-MM):" styleClass="kpi-label"/>
+            <TextField fx:id="txtMonthYear" prefWidth="125.0" promptText="2026-11" styleClass="kpi-input"/>
+            <Button fx:id="btnEvaluateKPI" onAction="#handleEvaluateKPI" text="✦ Đánh giá KPI bằng AI"
+                    styleClass="kpi-btn-ai"/>
+            <Button fx:id="btnLoadReport" onAction="#loadCompanyReport" text="📊 Tải báo cáo tháng"
+                    styleClass="kpi-btn-report"/>
         </HBox>
 
-        <Label fx:id="lblStatusMessage" text="" style="-fx-font-weight: bold; -fx-font-size: 12.5px;" wrapText="true"/>
+        <Label fx:id="lblStatusMessage" text="" styleClass="kpi-status" wrapText="true"/>
 
         <!-- Bảng KPI toàn công ty + chi tiết -->
         <HBox spacing="16.0" maxWidth="Infinity">
-            <VBox spacing="8.0" HBox.hgrow="ALWAYS" styleClass="quick-card" style="-fx-cursor: default;">
-                <Label text="Báo cáo KPI theo tháng" styleClass="quick-card-title"/>
-                <TableView fx:id="tblCompanyKPI" prefHeight="250.0" maxWidth="Infinity">
+            <VBox spacing="10.0" HBox.hgrow="ALWAYS" styleClass="kpi-card-blue">
+                <Region prefHeight="5.0" maxWidth="Infinity" styleClass="kpi-bar-blue"/>
+                <Label text="📋 Báo cáo KPI theo tháng" styleClass="kpi-card-title"/>
+                <TableView fx:id="tblCompanyKPI" prefHeight="265.0" maxWidth="Infinity" styleClass="kpi-table">
                     <columns>
                         <TableColumn fx:id="colEmployeeId" prefWidth="70.0" text="Mã NV"/>
                         <TableColumn fx:id="colEmployeeName" prefWidth="180.0" text="Họ tên"/>
@@ -68,12 +71,16 @@
                 </TableView>
             </VBox>
 
-            <VBox spacing="8.0" prefWidth="360.0" styleClass="quick-card" style="-fx-cursor: default;">
-                <Label text="Chi tiết đánh giá" styleClass="quick-card-title"/>
-                <Label fx:id="lblTaskStats" text="Tiến độ Task: --" style="-fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
-                <Label fx:id="lblAttendanceStats" text="Chuyên cần: --" style="-fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
-                <Label fx:id="lblBonusDetail" text="Thưởng đề xuất: --" style="-fx-font-weight: bold; -fx-text-fill: #0d9488;"/>
+            <VBox spacing="10.0" prefWidth="370.0" styleClass="kpi-card-rose">
+                <Region prefHeight="5.0" maxWidth="Infinity" styleClass="kpi-bar-rose"/>
+                <Label text="🎯 Chi tiết đánh giá" styleClass="kpi-card-title"/>
+                <VBox spacing="7.0" styleClass="kpi-stats-box">
+                    <Label fx:id="lblTaskStats" text="Tiến độ Task: --" styleClass="kpi-stat-line"/>
+                    <Label fx:id="lblAttendanceStats" text="Chuyên cần: --" styleClass="kpi-stat-line"/>
+                    <Label fx:id="lblBonusDetail" text="Thưởng đề xuất: --" styleClass="kpi-stat-bonus"/>
+                </VBox>
                 <TextArea fx:id="txtAiFeedback" editable="false" prefHeight="155.0" wrapText="true"
+                          styleClass="kpi-textarea"
                           promptText="Nhận xét chi tiết từ AI..."/>
             </VBox>
         </HBox>

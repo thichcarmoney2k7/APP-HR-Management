@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="mainBorderPane" prefHeight="780.0" prefWidth="1320.0"
+            styleClass="candidate-root" stylesheets="@candidate.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controller.CandidateDashboardController">
+
+    <left>
+        <VBox prefWidth="270.0" spacing="10.0" styleClass="candidate-sidebar">
+            <padding>
+                <Insets bottom="20.0" left="14.0" right="14.0" top="22.0"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <ImageView fitHeight="38.0" fitWidth="38.0" preserveRatio="true">
+                    <image>
+                        <Image url="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" backgroundLoading="true"/>
+                    </image>
+                </ImageView>
+                <VBox>
+                    <Label text="AI HRM TALENT" styleClass="cand-brand-title"/>
+                    <Label text="Cổng Ứng viên thông minh" styleClass="cand-brand-sub"/>
+                </VBox>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="cand-user-card">
+                <ImageView fitHeight="44.0" fitWidth="44.0" preserveRatio="true">
+                    <image>
+                        <Image url="https://ui-avatars.com/api/?name=Candidate&amp;background=ec4899&amp;color=fff&amp;rounded=true"
+                               backgroundLoading="true"/>
+                    </image>
+                </ImageView>
+                <VBox spacing="2.0">
+                    <Label fx:id="lblWelcome" text="Ứng viên" styleClass="cand-user-name" wrapText="true"/>
+                    <Label text="✦ Chấm CV AI • Phỏng vấn AI" styleClass="cand-user-role"/>
+                </VBox>
+            </HBox>
+
+            <Separator style="-fx-opacity: 0.25;">
+                <VBox.margin>
+                    <Insets bottom="4.0" top="4.0"/>
+                </VBox.margin>
+            </Separator>
+
+            <Button fx:id="btnNavOverview" maxWidth="Infinity" onAction="#showOverview"
+                    text="✨  Tổng quan Hành trình"/>
+            <Button fx:id="btnNavInterview" maxWidth="Infinity" onAction="#showInterview"
+                    text="🤖  Nộp CV &amp; Phỏng vấn AI"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="cand-logout-btn" text="🚪  Đăng xuất"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="12.0" maxWidth="Infinity" maxHeight="Infinity">
+            <HBox alignment="CENTER_LEFT" spacing="8.0" styleClass="cand-topbar">
+                <Button fx:id="btnBack" onAction="#handleBack" styleClass="cand-nav-btn" text="◀ Lùi"/>
+                <Button fx:id="btnForward" onAction="#handleForward" styleClass="cand-nav-btn" text="Tiến ▶"/>
+                <Label fx:id="lblCurrentPage" text="Cổng Ứng viên AI HRM" styleClass="cand-page-title">
+                    <HBox.margin>
+                        <Insets left="8.0"/>
+                    </HBox.margin>
+                </Label>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="✦ Gemini AI Career Portal"
+                       style="-fx-background-color: linear-gradient(to right, #ec4899, #8b5cf6); -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-font-size: 11.5px; -fx-padding: 6 14; -fx-background-radius: 999;"/>
+            </HBox>
+
+            <VBox fx:id="contentContainer" alignment="TOP_LEFT" spacing="18.0" maxWidth="Infinity" VBox.vgrow="ALWAYS">
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                            style="-fx-background-color: transparent; -fx-background: transparent;">
+                    <StackPane maxWidth="Infinity">
+                        <ImageView fitHeight="680.0" fitWidth="1040.0" opacity="0.06" preserveRatio="false">
+                            <image>
+                                <Image url="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&amp;fit=crop&amp;w=1200&amp;q=80"
+                                       backgroundLoading="true"/>
+                            </image>
+                        </ImageView>
+
+                        <VBox fx:id="overviewView" alignment="TOP_LEFT" spacing="18.0" maxWidth="Infinity">
+                            <padding>
+                                <Insets bottom="24.0" left="22.0" right="22.0" top="6.0"/>
+                            </padding>
+
+                            <!-- Banner rực rỡ ở trên -->
+                            <HBox alignment="CENTER_LEFT" spacing="22.0" maxWidth="Infinity" styleClass="cand-hero">
+                                <ImageView fitHeight="120.0" fitWidth="180.0" preserveRatio="true"
+                                           style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 12, 0, 0, 4);">
+                                    <image>
+                                        <Image url="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&amp;fit=crop&amp;w=600&amp;q=80"
+                                               backgroundLoading="true"/>
+                                    </image>
+                                </ImageView>
+                                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                    <Label text="✦ CHÀO MỪNG ỨNG VIÊN ĐẾN VỚI AI HRM"
+                                           style="-fx-text-fill: #fde047; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                                    <Label text="Nộp CV, trả lời phỏng vấn AI &amp; chinh phục cơ hội nghề nghiệp"
+                                           style="-fx-text-fill: #ffffff; -fx-font-size: 20px; -fx-font-weight: bold;" wrapText="true"/>
+                                    <Label text="Hệ thống tự động chấm điểm CV, mở khóa bộ câu hỏi phỏng vấn theo hồ sơ và chấm điểm bài trả lời cùng Gemini AI."
+                                           style="-fx-text-fill: #fdf4ff; -fx-font-size: 13px;" wrapText="true"/>
+                                    <HBox spacing="10.0">
+                                        <padding><Insets top="4.0"/></padding>
+                                        <Button onAction="#showInterview" styleClass="btn-pink-purple"
+                                                text="🚀 Bắt đầu Nộp CV &amp; Phỏng vấn AI"/>
+                                    </HBox>
+                                </VBox>
+                            </HBox>
+
+                            <!-- 3 thẻ bước quy trình rực rỡ ở dưới -->
+                            <HBox spacing="16.0" maxWidth="Infinity">
+                                <VBox spacing="10.0" HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="card-purple">
+                                    <Region prefHeight="5.0" maxWidth="Infinity"
+                                            style="-fx-background-color: linear-gradient(to right, #8b5cf6, #ec4899); -fx-background-radius: 999;"/>
+                                    <ImageView fitHeight="125.0" fitWidth="290.0" preserveRatio="true">
+                                        <image>
+                                            <Image url="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&amp;fit=crop&amp;w=600&amp;q=80"
+                                                   backgroundLoading="true"/>
+                                        </image>
+                                    </ImageView>
+                                    <Label text="1. Nộp CV &amp; Chấm điểm AI" styleClass="cand-card-title"
+                                           style="-fx-text-fill: #7e22ce;"/>
+                                    <Label text="Điền vị trí ứng tuyển, số năm kinh nghiệm và nội dung CV để AI đánh giá điểm chuẩn."
+                                           styleClass="cand-card-desc" wrapText="true"/>
+                                </VBox>
+
+                                <VBox spacing="10.0" HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="card-cyan">
+                                    <Region prefHeight="5.0" maxWidth="Infinity"
+                                            style="-fx-background-color: linear-gradient(to right, #06b6d4, #2563eb); -fx-background-radius: 999;"/>
+                                    <ImageView fitHeight="125.0" fitWidth="290.0" preserveRatio="true">
+                                        <image>
+                                            <Image url="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&amp;fit=crop&amp;w=600&amp;q=80"
+                                                   backgroundLoading="true"/>
+                                        </image>
+                                    </ImageView>
+                                    <Label text="2. Phỏng vấn AI &amp; Trả lời" styleClass="cand-card-title"
+                                           style="-fx-text-fill: #0369a1;"/>
+                                    <Label text="Khi CV đạt chuẩn (APPROVED), mở bộ câu hỏi phỏng vấn AI, nhập câu trả lời và nộp bài."
+                                           styleClass="cand-card-desc" wrapText="true"/>
+                                </VBox>
+
+                                <VBox spacing="10.0" HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="card-amber">
+                                    <Region prefHeight="5.0" maxWidth="Infinity"
+                                            style="-fx-background-color: linear-gradient(to right, #f59e0b, #f43f5e); -fx-background-radius: 999;"/>
+                                    <ImageView fitHeight="125.0" fitWidth="290.0" preserveRatio="true">
+                                        <image>
+                                            <Image url="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&amp;fit=crop&amp;w=600&amp;q=80"
+                                                   backgroundLoading="true"/>
+                                        </image>
+                                    </ImageView>
+                                    <Label text="3. Kết quả &amp; Tuyển dụng" styleClass="cand-card-title"
+                                           style="-fx-text-fill: #be123c;"/>
+                                    <Label text="Xem nhận xét chi tiết từ AI và chờ Quản lý xác nhận tuyển dụng thành nhân viên chính thức."
+                                           styleClass="cand-card-desc" wrapText="true"/>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </StackPane>
+                </ScrollPane>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

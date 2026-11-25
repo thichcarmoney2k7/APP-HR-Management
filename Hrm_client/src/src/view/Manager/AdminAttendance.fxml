@@ -11,98 +11,97 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToWidth="true" styleClass="root-bg" stylesheets="@../dashboard.css"
+<ScrollPane fitToWidth="true" styleClass="root-bg" stylesheets="@manager.css"
             xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controller.AdminAttendanceController">
 
     <VBox spacing="16.0" maxWidth="Infinity">
         <padding>
-            <Insets bottom="22.0" left="22.0" right="22.0" top="10.0"/>
+            <Insets bottom="24.0" left="22.0" right="22.0" top="10.0"/>
         </padding>
 
-        <!-- Header -->
-        <HBox alignment="CENTER_LEFT" spacing="16.0" maxWidth="Infinity" styleClass="welcome-banner">
-            <ImageView fitHeight="72.0" fitWidth="105.0" preserveRatio="true">
+        <!-- Header rực rỡ -->
+        <HBox alignment="CENTER_LEFT" spacing="16.0" maxWidth="Infinity" styleClass="att-hero">
+            <ImageView fitHeight="78.0" fitWidth="116.0" preserveRatio="true"
+                       style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 10, 0, 0, 3);">
                 <image>
-                    <Image url="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&amp;fit=crop&amp;w=400&amp;q=80"
+                    <Image url="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&amp;fit=crop&amp;w=500&amp;q=80"
                            backgroundLoading="true"/>
                 </image>
             </ImageView>
             <VBox spacing="4.0" HBox.hgrow="ALWAYS">
-                <Label text="Chấm công Khuôn mặt &amp; Đăng ký Face ID (Máy Quản lý)"
-                       style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                <Label text="✦ FACE ID &amp; ĐIỂM DANH TẬP TRUNG (MÁY QUẢN LÝ)" styleClass="att-hero-tag"/>
+                <Label text="Chấm công Khuôn mặt &amp; Đăng ký Face ID" styleClass="att-hero-title" wrapText="true"/>
                 <Label text="Chọn nhân viên, bật camera quét khuôn mặt để đăng ký Face ID mẫu hoặc thực hiện Check-in / Check-out."
-                       style="-fx-text-fill: #64748b; -fx-font-size: 12.5px;" wrapText="true"/>
+                       styleClass="att-hero-sub" wrapText="true"/>
             </VBox>
         </HBox>
 
-        <Label fx:id="lblMessage" text="" style="-fx-font-weight: bold; -fx-font-size: 12.5px;" wrapText="true"/>
+        <Label fx:id="lblMessage" text="" styleClass="att-status-msg" wrapText="true"/>
 
         <!-- Khu vực Webcam + Chọn nhân viên & Thao tác chấm công -->
         <HBox spacing="16.0" maxWidth="Infinity">
             <!-- Khung camera -->
-            <VBox spacing="10.0" prefWidth="440.0" styleClass="quick-card" style="-fx-cursor: default;">
+            <VBox spacing="12.0" prefWidth="450.0" styleClass="att-card-cyan">
+                <Region prefHeight="5.0" maxWidth="Infinity" styleClass="att-bar-cyan"/>
                 <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <Label text="Camera quét khuôn mặt" styleClass="quick-card-title" HBox.hgrow="ALWAYS"/>
-                    <Button onAction="#handleStartCamera" text="Bật Cam" styleClass="nav-arrow-btn"/>
-                    <Button onAction="#handleStopCamera" text="Tắt Cam" styleClass="nav-arrow-btn"/>
+                    <Label text="📹 Camera quét khuôn mặt" styleClass="att-card-title" HBox.hgrow="ALWAYS"/>
+                    <Button onAction="#handleStartCamera" text="Bật Cam" styleClass="att-cam-btn"/>
+                    <Button onAction="#handleStopCamera" text="Tắt Cam" styleClass="att-cam-btn"/>
                 </HBox>
 
-                <VBox alignment="CENTER" prefHeight="280.0" maxWidth="Infinity"
-                      style="-fx-background-color: #0f172a; -fx-background-radius: 10; -fx-padding: 8;">
-                    <ImageView fx:id="imgWebcam" fitHeight="260.0" fitWidth="400.0" preserveRatio="true"/>
+                <VBox alignment="CENTER" prefHeight="285.0" maxWidth="Infinity" styleClass="att-cam-frame">
+                    <ImageView fx:id="imgWebcam" fitHeight="265.0" fitWidth="410.0" preserveRatio="true"/>
                 </VBox>
 
                 <HBox spacing="8.0">
                     <Button fx:id="btnRegisterFace" maxWidth="Infinity" HBox.hgrow="ALWAYS"
                             onAction="#handleRegisterFace" text="🪪 Đăng ký Face ID"
-                            style="-fx-background-color: #7c3aed; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 9 10; -fx-background-radius: 7; -fx-cursor: hand;"/>
+                            styleClass="att-btn-face"/>
                     <Button fx:id="btnCheckIn" maxWidth="Infinity" HBox.hgrow="ALWAYS"
                             onAction="#handleCheckIn" text="✓ Check-in"
-                            style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 9 10; -fx-background-radius: 7; -fx-cursor: hand;"/>
+                            styleClass="att-btn-checkin"/>
                     <Button fx:id="btnCheckOut" maxWidth="Infinity" HBox.hgrow="ALWAYS"
                             onAction="#handleCheckOut" text="⎋ Check-out"
-                            style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 9 10; -fx-background-radius: 7; -fx-cursor: hand;"/>
+                            styleClass="att-btn-checkout"/>
                 </HBox>
             </VBox>
 
             <!-- Thông tin nhân viên đang chọn & trạng thái ca hôm nay -->
-            <VBox spacing="12.0" HBox.hgrow="ALWAYS" styleClass="quick-card" style="-fx-cursor: default;">
-                <Label text="Thông tin điểm danh hôm nay" styleClass="quick-card-title"/>
+            <VBox spacing="12.0" HBox.hgrow="ALWAYS" styleClass="att-card-purple">
+                <Region prefHeight="5.0" maxWidth="Infinity" styleClass="att-bar-purple"/>
+                <Label text="👤 Thông tin điểm danh hôm nay" styleClass="att-card-title"/>
 
                 <VBox spacing="6.0">
-                    <Label text="Chọn nhân viên:" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
-                    <ComboBox fx:id="cboEmployee" maxWidth="Infinity"/>
+                    <Label text="Chọn nhân viên:" styleClass="att-field-label"/>
+                    <ComboBox fx:id="cboEmployee" maxWidth="Infinity" styleClass="att-combo"/>
                 </VBox>
 
-                <VBox spacing="8.0"
-                      style="-fx-background-color: #f8fafc; -fx-background-radius: 10; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-padding: 14;">
-                    <Label fx:id="lblSelectedEmployee" text="Nhân viên: --"
-                           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
-                    <Label fx:id="lblCheckInTime" text="Giờ vào: --"
-                           style="-fx-font-size: 13px; -fx-text-fill: #334155;"/>
-                    <Label fx:id="lblCheckOutTime" text="Giờ ra: --"
-                           style="-fx-font-size: 13px; -fx-text-fill: #334155;"/>
-                    <Label fx:id="lblTodayStatus" text="Trạng thái: --"
-                           style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #0d9488;"/>
+                <VBox spacing="9.0" styleClass="att-info-box">
+                    <Label fx:id="lblSelectedEmployee" text="Nhân viên: --" styleClass="att-info-name"/>
+                    <Label fx:id="lblCheckInTime" text="Giờ vào: --" styleClass="att-info-line"/>
+                    <Label fx:id="lblCheckOutTime" text="Giờ ra: --" styleClass="att-info-line"/>
+                    <Label fx:id="lblTodayStatus" text="Trạng thái: --" styleClass="att-info-status"/>
                 </VBox>
 
-                <Label text="Lưu ý: Nhân viên cần được đăng ký Face ID trước khi thực hiện Check-in. Khi chuyển sang màn hình khác, hệ thống sẽ tự tắt camera."
-                       styleClass="quick-card-desc" wrapText="true"/>
+                <Label text="Lưu ý: Nhân viên cần được đăng ký Face ID trước khi thực hiện Check-in. Khi chuyển sang màn hình khác hoặc đăng xuất, hệ thống sẽ tự tắt camera."
+                       styleClass="att-note" wrapText="true"/>
             </VBox>
         </HBox>
 
         <!-- Bảng chấm công toàn bộ nhân viên theo ngày -->
-        <VBox spacing="10.0" styleClass="quick-card" style="-fx-cursor: default;">
+        <VBox spacing="12.0" styleClass="att-card-emerald">
+            <Region prefHeight="5.0" maxWidth="Infinity" styleClass="att-bar-emerald"/>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
-                <Label text="Bảng chấm công theo ngày" styleClass="quick-card-title" HBox.hgrow="ALWAYS"/>
-                <DatePicker fx:id="dpDateFilter"/>
-                <Button onAction="#loadAttendanceByDate" text="Xem theo ngày" styleClass="nav-arrow-btn"/>
+                <Label text="📋 Bảng chấm công theo ngày" styleClass="att-card-title" HBox.hgrow="ALWAYS"/>
+                <DatePicker fx:id="dpDateFilter" styleClass="att-datepicker"/>
+                <Button onAction="#loadAttendanceByDate" text="Xem theo ngày" styleClass="att-btn-filter"/>
             </HBox>
 
-            <TableView fx:id="tblAttendance" prefHeight="220.0" maxWidth="Infinity">
+            <TableView fx:id="tblAttendance" prefHeight="235.0" maxWidth="Infinity" styleClass="att-table">
                 <columns>
                     <TableColumn fx:id="colEmployeeId" prefWidth="75.0" text="Mã NV"/>
                     <TableColumn fx:id="colWorkDate" prefWidth="120.0" text="Ngày làm"/>

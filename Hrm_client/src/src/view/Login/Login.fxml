@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox prefHeight="720.0" prefWidth="1200.0"
+      styleClass="login-root" stylesheets="@login.css"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controller.AuthController">
+
+    <!-- Cột trái: Thương hiệu & điểm nhấn hệ thống -->
+    <StackPane prefWidth="540.0" styleClass="brand-panel">
+        <ImageView fitHeight="720.0" fitWidth="540.0" opacity="0.22" preserveRatio="false">
+            <image>
+                <Image url="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&amp;fit=crop&amp;w=1200&amp;q=80"
+                       backgroundLoading="true"/>
+            </image>
+        </ImageView>
+
+        <VBox alignment="CENTER_LEFT" spacing="18.0" maxWidth="440.0">
+            <padding>
+                <Insets bottom="40.0" left="44.0" right="44.0" top="40.0"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <ImageView fitHeight="46.0" fitWidth="46.0" preserveRatio="true">
+                    <image>
+                        <Image url="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
+                               backgroundLoading="true"/>
+                    </image>
+                </ImageView>
+                <VBox spacing="2.0">
+                    <Label text="AI HRM SYSTEM" styleClass="hero-brand"/>
+                    <Label text="Quản trị Nhân sự &amp; Tuyển dụng thông minh" styleClass="hero-subbrand"/>
+                </VBox>
+            </HBox>
+
+            <Label text="Điều hành nhân sự &amp; tuyển dụng chuẩn xác cùng AI"
+                   styleClass="hero-headline" wrapText="true"/>
+
+            <Label text="Sàng lọc CV và phỏng vấn tự động cho ứng viên, theo dõi công việc &amp; KPI cho nhân viên, và quản trị nhân sự tập trung trên một nền tảng."
+                   styleClass="hero-desc" wrapText="true"/>
+
+            <VBox spacing="10.0" styleClass="feature-box">
+                <Label text="✦  Sàng lọc CV &amp; phỏng vấn AI thông minh" styleClass="feature-item"/>
+                <Label text="✦  Quản lý hồ sơ, công việc, chấm công &amp; KPI minh bạch" styleClass="feature-item"/>
+                <Label text="✦  Tự động định tuyến theo vai trò sau khi đăng nhập" styleClass="feature-item"/>
+            </VBox>
+
+            <HBox spacing="8.0">
+                <Label text="Ứng viên" styleClass="role-pill-purple"/>
+                <Label text="Nhân viên" styleClass="role-pill-teal"/>
+                <Label text="Quản lý" styleClass="role-pill-sky"/>
+            </HBox>
+        </VBox>
+    </StackPane>
+
+    <!-- Cột phải: Form Đăng nhập -->
+    <VBox alignment="CENTER" HBox.hgrow="ALWAYS" styleClass="form-side">
+        <padding>
+            <Insets bottom="32.0" left="48.0" right="48.0" top="32.0"/>
+        </padding>
+
+        <VBox spacing="16.0" maxWidth="430.0" styleClass="login-card">
+            <Region prefHeight="6.0" maxWidth="Infinity" styleClass="card-top-bar"/>
+
+            <VBox spacing="4.0">
+                <Label text="Đăng nhập hệ thống" styleClass="form-title"/>
+                <Label text="Nhập tên đăng nhập hoặc email để vào không gian làm việc." styleClass="form-subtitle"/>
+            </VBox>
+
+            <Separator style="-fx-opacity: 0.45;"/>
+
+            <VBox spacing="6.0">
+                <Label text="Tên đăng nhập / Email" styleClass="field-label"/>
+                <TextField fx:id="txtLoginUsername"
+                           promptText="Ví dụ: candidate@gmail.com hoặc manager"
+                           styleClass="input-field"/>
+            </VBox>
+
+            <VBox spacing="6.0">
+                <Label text="Mật khẩu" styleClass="field-label"/>
+                <PasswordField fx:id="txtLoginPassword"
+                               promptText="Nhập mật khẩu"
+                               styleClass="input-field"/>
+            </VBox>
+
+            <Label fx:id="lblStatus" text="" styleClass="status-label" wrapText="true"/>
+
+            <Button fx:id="btnLogin" maxWidth="Infinity" onAction="#handleLogin"
+                    styleClass="primary-btn" text="Đăng nhập"/>
+
+            <HBox alignment="CENTER" spacing="6.0">
+                <padding>
+                    <Insets top="4.0"/>
+                </padding>
+                <Label text="Chưa có tài khoản ứng viên?" styleClass="hint-text"/>
+                <Label text="Đăng ký tại màn hình ứng tuyển" styleClass="link-accent"/>
+            </HBox>
+        </VBox>
+
+        <Region VBox.vgrow="ALWAYS"/>
+        <Label text="AI HRM Platform • JavaFX &amp; Spring Boot" styleClass="footer-note"/>
+    </VBox>
+</HBox>

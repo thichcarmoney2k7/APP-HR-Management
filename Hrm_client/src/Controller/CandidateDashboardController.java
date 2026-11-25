@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import util.SessionManager;
 import util.WebcamUtils;
@@ -17,48 +18,67 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 
 public class CandidateDashboardController {
 
+    private static final String VIEW_OVERVIEW = "OVERVIEW";
+    private static final String VIEW_INTERVIEW = "/view/Candidate/UserInterview.fxml";
+
     @FXML private BorderPane mainBorderPane;
+    @FXML private VBox contentContainer;
+    @FXML private VBox overviewView;
+
     @FXML private Label lblWelcome;
     @FXML private Label lblCurrentPage;
+
     @FXML private Button btnBack;
     @FXML private Button btnForward;
+    @FXML private Button btnNavOverview;
     @FXML private Button btnNavInterview;
 
+    private static final String DEFAULT_BTN_STYLE =
+            "-fx-background-color: transparent; -fx-text-fill: #f3e8ff; -fx-alignment: CENTER_LEFT; -fx-padding: 11 14; -fx-font-size: 13.5px; -fx-background-radius: 9; -fx-cursor: hand;";
     private static final String ACTIVE_BTN_STYLE =
-            "-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-weight: bold; -fx-alignment: CENTER_LEFT; -fx-padding: 12 16; -fx-font-size: 14px; -fx-background-radius: 6;";
+            "-fx-background-color: linear-gradient(to right, #ec4899, #8b5cf6, #06b6d4); -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-alignment: CENTER_LEFT; -fx-padding: 11 14; -fx-font-size: 13.5px; -fx-background-radius: 9; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(236, 72, 153, 0.35), 12, 0, 0, 3);";
 
     private final Deque<String> backStack = new ArrayDeque<>();
     private final Deque<String> forwardStack = new ArrayDeque<>();
-    private String currentViewPath;
+    private String currentView;
 
     @FXML
     public void initialize() {
-        String name = SessionManager.getFullName() != null
+        String name = SessionManager.getFullName() != null && !SessionManager.getFullName().isBlank()
                 ? SessionManager.getFullName()
-                : SessionManager.getUsername();
-        if (lblWelcome != null && name != null) {
-            lblWelcome.setText("Ứng viên: " + name);
-        }
-        if (btnNavInterview != null) {
-            btnNavInterview.setStyle(ACTIVE_BTN_STYLE);
+                : (SessionManager.getUsername() != null ? SessionManager.getUsername() : "Ứng viên");
+
+        if (lblWelcome != null) {
+            lblWelcome.setText(name);
         }
 
-        navigateTo("/view/UserInterview.fxml", "Nộp CV & Phỏng vấn AI", true);
+        currentView = VIEW_OVERVIEW;
+        if (lblCurrentPage != null) {
+            lblCurrentPage.setText(resolveTitle(VIEW_OVERVIEW));
+        }
+        setActiveButton(VIEW_OVERVIEW);
+        updateNavButtons();
+    }
+
+    @FXML
+    public void showOverview() {
+        navigateTo(VIEW_OVERVIEW, resolveTitle(VIEW_OVERVIEW), true);
     }
 
     @FXML
     public void showInterview() {
-        navigateTo("/view/UserInterview.fxml", "Nộp CV & Phỏng vấn AI", true);
+        navigateTo(VIEW_INTERVIEW, resolveTitle(VIEW_INTERVIEW), true);
     }
 
     @FXML
     public void handleBack() {
         if (backStack.isEmpty()) return;
-        if (currentViewPath != null) {
-            forwardStack.push(currentViewPath);
+        if (currentView != null) {
+            forwardStack.push(currentView);
         }
         String target = backStack.pop();
         navigateTo(target, resolveTitle(target), false);
@@ -67,8 +87,8 @@ public class CandidateDashboardController {
     @FXML
     public void handleForward() {
         if (forwardStack.isEmpty()) return;
-        if (currentViewPath != null) {
-            backStack.push(currentViewPath);
+        if (currentView != null) {
+            backStack.push(currentView);
         }
         String target = forwardStack.pop();
         navigateTo(target, resolveTitle(target), false);
@@ -81,33 +101,52 @@ public class CandidateDashboardController {
         switchScene(event, "/view/Login.fxml", "AI HRM System - Đăng nhập");
     }
 
-    private void navigateTo(String fxmlPath, String title, boolean recordHistory) {
-        if (fxmlPath.equals(currentViewPath)) return;
+    private void navigateTo(String targetView, String title, boolean recordHistory) {
+        if (targetView.equals(currentView)) return;
 
         try {
             WebcamUtils.stopCamera();
-            URL resource = getClass().getResource(fxmlPath);
-            if (resource == null) {
-                System.err.println("Không tìm thấy FXML: " + fxmlPath);
-                return;
-            }
-            Parent view = FXMLLoader.load(resource);
+            Parent viewNode;
 
-            if (recordHistory && currentViewPath != null) {
-                backStack.push(currentViewPath);
+            if (VIEW_OVERVIEW.equals(targetView)) {
+                if (overviewView == null) return;
+                viewNode = overviewView;
+            } else {
+                URL resource = getClass().getResource(targetView);
+                if (resource == null) {
+                    System.err.println("Không tìm thấy FXML: " + targetView);
+                    return;
+                }
+                viewNode = FXMLLoader.load(resource);
+            }
+
+            if (recordHistory && currentView != null) {
+                backStack.push(currentView);
                 forwardStack.clear();
             }
 
-            currentViewPath = fxmlPath;
-            if (mainBorderPane != null) {
-                mainBorderPane.setCenter(view);
+            currentView = targetView;
+            if (contentContainer != null) {
+                contentContainer.getChildren().setAll(viewNode);
+            } else if (mainBorderPane != null) {
+                mainBorderPane.setCenter(viewNode);
             }
             if (lblCurrentPage != null) {
                 lblCurrentPage.setText(title);
             }
+            setActiveButton(targetView);
             updateNavButtons();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setActiveButton(String viewKey) {
+        Button active = VIEW_INTERVIEW.equals(viewKey) ? btnNavInterview : btnNavOverview;
+        for (Button btn : List.of(btnNavOverview, btnNavInterview)) {
+            if (btn != null) {
+                btn.setStyle(btn == active ? ACTIVE_BTN_STYLE : DEFAULT_BTN_STYLE);
+            }
         }
     }
 
@@ -116,10 +155,10 @@ public class CandidateDashboardController {
         if (btnForward != null) btnForward.setDisable(forwardStack.isEmpty());
     }
 
-    private String resolveTitle(String path) {
-        return switch (path) {
-            case "/view/UserInterview.fxml" -> "Nộp CV & Phỏng vấn AI";
-            default -> "Cổng Ứng viên";
+    private String resolveTitle(String viewKey) {
+        return switch (viewKey) {
+            case VIEW_INTERVIEW -> "Nộp CV & Phỏng vấn AI";
+            default -> "Cổng Ứng viên AI HRM";
         };
     }
 

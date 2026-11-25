@@ -1,0 +1,1098 @@
+/* --- AdminAttendance / Face ID --- */
+.att-hero {
+    -fx-background-color: linear-gradient(to right, #0f172a, #0369a1, #7c3aed, #db2777);
+    -fx-background-radius: 16;
+    -fx-border-color: linear-gradient(to right, #38bdf8, #f472b6, #fde047, #34d399);
+    -fx-border-width: 2;
+    -fx-border-radius: 16;
+    -fx-padding: 18 22;
+    -fx-effect: dropshadow(gaussian, rgba(3, 105, 161, 0.22), 18, 0, 0, 6);
+}
+
+.att-hero-tag {
+    -fx-text-fill: #fde047;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+}
+
+.att-hero-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.att-hero-sub {
+    -fx-text-fill: #f0f9ff;
+    -fx-font-size: 12.5px;
+}
+
+.att-status-msg {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.att-card-cyan {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-border-color: linear-gradient(to bottom right, #06b6d4, #2563eb);
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(gaussian, rgba(6, 182, 212, 0.16), 14, 0, 0, 4);
+}
+
+.att-card-purple {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-border-color: linear-gradient(to bottom right, #8b5cf6, #ec4899);
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(gaussian, rgba(139, 92, 246, 0.16), 14, 0, 0, 4);
+}
+
+.att-card-emerald {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-border-color: linear-gradient(to bottom right, #10b981, #0284c7);
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.16), 14, 0, 0, 4);
+}
+
+.att-bar-cyan {
+    -fx-background-color: linear-gradient(to right, #06b6d4, #2563eb);
+    -fx-background-radius: 999;
+}
+
+.att-bar-purple {
+    -fx-background-color: linear-gradient(to right, #8b5cf6, #ec4899);
+    -fx-background-radius: 999;
+}
+
+.att-bar-emerald {
+    -fx-background-color: linear-gradient(to right, #10b981, #0284c7);
+    -fx-background-radius: 999;
+}
+
+.att-card-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.att-field-label {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #334155;
+}
+
+.att-combo,
+.att-datepicker {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 9;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 9;
+    -fx-font-size: 13px;
+}
+
+.att-cam-frame {
+    -fx-background-color: linear-gradient(to bottom right, #090d16, #1e1b4b);
+    -fx-background-radius: 12;
+    -fx-border-color: linear-gradient(to right, #38bdf8, #a855f7);
+    -fx-border-width: 1.5;
+    -fx-border-radius: 12;
+    -fx-padding: 8;
+}
+
+.att-info-box {
+    -fx-background-color: linear-gradient(to bottom right, #f8fafc, #eff6ff);
+    -fx-background-radius: 12;
+    -fx-border-color: #bfdbfe;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 12;
+    -fx-padding: 14;
+}
+
+.att-info-name {
+    -fx-font-size: 14.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.att-info-line {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #334155;
+}
+
+.att-info-status {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0d9488;
+}
+
+.att-note {
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748b;
+}
+
+.att-cam-btn {
+    -fx-background-color: #e0f2fe;
+    -fx-text-fill: #0369a1;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 6 12;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.att-cam-btn:hover {
+    -fx-background-color: #bae6fd;
+}
+
+.att-btn-face {
+    -fx-background-color: linear-gradient(to right, #7c3aed, #ec4899);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 9 12;
+    -fx-background-radius: 9;
+    -fx-cursor: hand;
+}
+
+.att-btn-checkin {
+    -fx-background-color: linear-gradient(to right, #16a34a, #0d9488);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 9 12;
+    -fx-background-radius: 9;
+    -fx-cursor: hand;
+}
+
+.att-btn-checkout {
+    -fx-background-color: linear-gradient(to right, #2563eb, #4f46e5);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 9 12;
+    -fx-background-radius: 9;
+    -fx-cursor: hand;
+}
+
+.att-btn-filter {
+    -fx-background-color: linear-gradient(to right, #0d9488, #0284c7);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 7 14;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.att-table {
+    -fx-background-radius: 10;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 10;
+}
+
+.cv-root {
+    -fx-font-family: "Segoe UI", "Inter", "Roboto", sans-serif;
+    -fx-background-color: #f3e8ff;
+    -fx-background: #f3e8ff;
+}
+
+.cv-hero {
+    -fx-background-color: linear-gradient(to right, #312e81, #7e22ce, #db2777);
+    -fx-background-radius: 16;
+    -fx-border-color: #f472b6;
+    -fx-border-width: 2;
+    -fx-border-radius: 16;
+    -fx-padding: 18 22;
+}
+
+.cv-hero-tag {
+    -fx-text-fill: #fde047;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+}
+
+.cv-hero-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.cv-hero-sub {
+    -fx-text-fill: #fae8ff;
+    -fx-font-size: 12.5px;
+}
+
+.cv-status-msg {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.cv-card-violet {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #8b5cf6;
+    -fx-border-width: 2;
+    -fx-border-radius: 14;
+    -fx-padding: 16;
+}
+
+.cv-card-amber {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #f59e0b;
+    -fx-border-width: 2;
+    -fx-border-radius: 14;
+    -fx-padding: 16;
+}
+
+.cv-card-blue {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #2563eb;
+    -fx-border-width: 2;
+    -fx-border-radius: 14;
+    -fx-padding: 16;
+}
+
+.cv-bar-violet {
+    -fx-background-color: linear-gradient(to right, #8b5cf6, #ec4899);
+    -fx-background-radius: 999;
+}
+
+.cv-bar-amber {
+    -fx-background-color: linear-gradient(to right, #f59e0b, #ef4444);
+    -fx-background-radius: 999;
+}
+
+.cv-bar-blue {
+    -fx-background-color: linear-gradient(to right, #2563eb, #06b6d4);
+    -fx-background-radius: 999;
+}
+
+.cv-card-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.cv-card-desc {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #475569;
+}
+
+.cv-combo {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-border-color: #e9d5ff;
+    -fx-border-radius: 8;
+    -fx-font-size: 12.5px;
+}
+
+.cv-input,
+.cv-textarea {
+    -fx-background-color: #faf5ff;
+    -fx-text-fill: #0f172a;
+    -fx-prompt-text-fill: #94a3b8;
+    -fx-font-size: 13px;
+    -fx-padding: 9 12;
+    -fx-background-radius: 8;
+    -fx-border-color: #c084fc;
+    -fx-border-radius: 8;
+}
+
+.cv-input:focused,
+.cv-textarea:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #7c3aed;
+    -fx-border-width: 1.8;
+}
+
+.cv-btn-reload {
+    -fx-background-color: #facc15;
+    -fx-text-fill: #422006;
+    -fx-font-weight: bold;
+    -fx-font-size: 12.5px;
+    -fx-padding: 7 14;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.cv-btn-approve {
+    -fx-background-color: #16a34a;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 9 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.cv-btn-reject {
+    -fx-background-color: #ef4444;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 9 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.cv-btn-hire {
+    -fx-background-color: linear-gradient(to right, #2563eb, #7c3aed);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 10 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.cv-table {
+    -fx-background-radius: 10;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 10;
+}
+
+/* --- AdminEmployeeMgmt --- */
+.emp-mgmt-root {
+    -fx-font-family: "Segoe UI", "Inter", "Roboto", sans-serif;
+    -fx-background-color: #ecfdf5;
+    -fx-background: #ecfdf5;
+}
+
+.emp-mgmt-hero {
+    -fx-background-color: linear-gradient(to right, #064e3b, #0d9488, #2563eb, #7c3aed);
+    -fx-background-radius: 16;
+    -fx-border-color: #34d399;
+    -fx-border-width: 2;
+    -fx-border-radius: 16;
+    -fx-padding: 18 22;
+}
+
+.emp-mgmt-hero-tag {
+    -fx-text-fill: #fde047;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+}
+
+.emp-mgmt-hero-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.emp-mgmt-hero-sub {
+    -fx-text-fill: #ecfdf5;
+    -fx-font-size: 12.5px;
+}
+
+.emp-mgmt-status {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.emp-mgmt-card-emerald {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #10b981;
+    -fx-border-width: 2;
+    -fx-border-radius: 14;
+    -fx-padding: 16;
+}
+
+.emp-mgmt-card-blue {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #2563eb;
+    -fx-border-width: 2;
+    -fx-border-radius: 14;
+    -fx-padding: 16;
+}
+
+.emp-mgmt-card-teal {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #0d9488;
+    -fx-border-width: 2;
+    -fx-border-radius: 14;
+    -fx-padding: 15;
+}
+
+.emp-mgmt-card-purple {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #8b5cf6;
+    -fx-border-width: 2;
+    -fx-border-radius: 14;
+    -fx-padding: 15;
+}
+
+.emp-mgmt-bar-emerald {
+    -fx-background-color: linear-gradient(to right, #10b981, #06b6d4);
+    -fx-background-radius: 999;
+}
+
+.emp-mgmt-bar-blue {
+    -fx-background-color: linear-gradient(to right, #2563eb, #7c3aed);
+    -fx-background-radius: 999;
+}
+
+.emp-mgmt-bar-teal {
+    -fx-background-color: linear-gradient(to right, #0d9488, #10b981);
+    -fx-background-radius: 999;
+}
+
+.emp-mgmt-bar-purple {
+    -fx-background-color: linear-gradient(to right, #8b5cf6, #ec4899);
+    -fx-background-radius: 999;
+}
+
+.emp-mgmt-card-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.emp-mgmt-label {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.emp-mgmt-input,
+.emp-mgmt-textarea,
+.emp-mgmt-datepicker {
+    -fx-background-color: #f8fafc;
+    -fx-text-fill: #0f172a;
+    -fx-prompt-text-fill: #94a3b8;
+    -fx-font-size: 13px;
+    -fx-padding: 8 11;
+    -fx-background-radius: 8;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 8;
+}
+
+.emp-mgmt-input:focused,
+.emp-mgmt-textarea:focused,
+.emp-mgmt-datepicker:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #0d9488;
+    -fx-border-width: 1.8;
+}
+
+.emp-mgmt-btn-light {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #065f46;
+    -fx-font-weight: bold;
+    -fx-font-size: 12.5px;
+    -fx-padding: 7 13;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.emp-mgmt-btn-gold {
+    -fx-background-color: #facc15;
+    -fx-text-fill: #422006;
+    -fx-font-weight: bold;
+    -fx-font-size: 12.5px;
+    -fx-padding: 7 13;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.emp-mgmt-btn-save {
+    -fx-background-color: linear-gradient(to right, #2563eb, #4f46e5);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 9 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.emp-mgmt-btn-delete {
+    -fx-background-color: linear-gradient(to right, #ef4444, #e11d48);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 9 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.emp-mgmt-btn-hire {
+    -fx-background-color: linear-gradient(to right, #0d9488, #059669);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 9 14;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.emp-mgmt-table {
+    -fx-background-radius: 10;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 10;
+}
+
+/* --- AdminKPI --- */
+.kpi-root {
+    -fx-font-family: "Segoe UI", "Inter", "Roboto", sans-serif;
+    -fx-background-color: #fdf2f8;
+    -fx-background: #fdf2f8;
+}
+
+.kpi-hero {
+    -fx-background-color: linear-gradient(to right, #4c1d95, #9333ea, #e11d48, #0284c7);
+    -fx-background-radius: 16;
+    -fx-border-color: #f472b6;
+    -fx-border-width: 2;
+    -fx-border-radius: 16;
+    -fx-padding: 18 22;
+}
+
+.kpi-hero-tag {
+    -fx-text-fill: #fde047;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+}
+
+.kpi-hero-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.kpi-hero-sub {
+    -fx-text-fill: #fdf2f8;
+    -fx-font-size: 12.5px;
+}
+
+.kpi-status {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.kpi-card-purple {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #8b5cf6;
+    -fx-border-width: 2;
+    -fx-border-radius: 14;
+    -fx-padding: 14 16;
+}
+
+.kpi-card-blue {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #2563eb;
+    -fx-border-width: 2;
+    -fx-border-radius: 14;
+    -fx-padding: 16;
+}
+
+.kpi-card-rose {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #f43f5e;
+    -fx-border-width: 2;
+    -fx-border-radius: 14;
+    -fx-padding: 16;
+}
+
+.kpi-bar-blue {
+    -fx-background-color: linear-gradient(to right, #2563eb, #06b6d4);
+    -fx-background-radius: 999;
+}
+
+.kpi-bar-rose {
+    -fx-background-color: linear-gradient(to right, #f43f5e, #9333ea);
+    -fx-background-radius: 999;
+}
+
+.kpi-card-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.kpi-label {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.kpi-combo,
+.kpi-input,
+.kpi-textarea {
+    -fx-background-color: #fdf4ff;
+    -fx-text-fill: #0f172a;
+    -fx-prompt-text-fill: #94a3b8;
+    -fx-font-size: 13px;
+    -fx-padding: 8 11;
+    -fx-background-radius: 8;
+    -fx-border-color: #d8b4fe;
+    -fx-border-radius: 8;
+}
+
+.kpi-combo:focused,
+.kpi-input:focused,
+.kpi-textarea:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #9333ea;
+    -fx-border-width: 1.8;
+}
+
+.kpi-stats-box {
+    -fx-background-color: #fdf2f8;
+    -fx-background-radius: 10;
+    -fx-border-color: #fbcfe8;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 10;
+    -fx-padding: 12;
+}
+
+.kpi-stat-line {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.kpi-stat-bonus {
+    -fx-font-size: 13.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0d9488;
+}
+
+.kpi-btn-ai {
+    -fx-background-color: linear-gradient(to right, #7c3aed, #db2777);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 12.5px;
+    -fx-padding: 8 15;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.kpi-btn-report {
+    -fx-background-color: linear-gradient(to right, #0284c7, #2563eb);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 12.5px;
+    -fx-padding: 8 15;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.kpi-table {
+    -fx-background-radius: 10;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 10;
+}
+
+/* --- AdminTask --- */
+.task-root {
+    -fx-font-family: "Segoe UI", "Inter", "Roboto", sans-serif;
+    -fx-background-color: #fffbeb;
+    -fx-background: #fffbeb;
+}
+
+.task-hero {
+    -fx-background-color: linear-gradient(to right, #78350f, #d97706, #ea580c, #4f46e5);
+    -fx-background-radius: 16;
+    -fx-border-color: #fbbf24;
+    -fx-border-width: 2;
+    -fx-border-radius: 16;
+    -fx-padding: 18 22;
+}
+
+.task-hero-tag {
+    -fx-text-fill: #fef08a;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+}
+
+.task-hero-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.task-hero-sub {
+    -fx-text-fill: #fffbeb;
+    -fx-font-size: 12.5px;
+}
+
+.task-status {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.task-card-amber {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #f59e0b;
+    -fx-border-width: 2;
+    -fx-border-radius: 14;
+    -fx-padding: 16;
+}
+
+.task-card-blue {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #2563eb;
+    -fx-border-width: 2;
+    -fx-border-radius: 14;
+    -fx-padding: 16;
+}
+
+.task-bar-amber {
+    -fx-background-color: linear-gradient(to right, #f59e0b, #ea580c);
+    -fx-background-radius: 999;
+}
+
+.task-bar-blue {
+    -fx-background-color: linear-gradient(to right, #2563eb, #06b6d4);
+    -fx-background-radius: 999;
+}
+
+.task-card-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.task-label {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.task-combo,
+.task-input,
+.task-textarea,
+.task-datepicker {
+    -fx-background-color: #fffbeb;
+    -fx-text-fill: #0f172a;
+    -fx-prompt-text-fill: #94a3b8;
+    -fx-font-size: 13px;
+    -fx-padding: 8 11;
+    -fx-background-radius: 8;
+    -fx-border-color: #fcd34d;
+    -fx-border-radius: 8;
+}
+
+.task-combo:focused,
+.task-input:focused,
+.task-textarea:focused,
+.task-datepicker:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ea580c;
+    -fx-border-width: 1.8;
+}
+
+.task-btn-assign {
+    -fx-background-color: linear-gradient(to right, #f59e0b, #ea580c);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 10 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.task-table {
+    -fx-background-radius: 10;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 10;
+}
+
+/* --- ManagerDashboard --- */
+.mgr-dash-root {
+    -fx-font-family: "Segoe UI", "Inter", "Roboto", sans-serif;
+    -fx-background-color: #eef2ff;
+}
+
+.mgr-dash-sidebar {
+    -fx-background-color: linear-gradient(to bottom, #090d16, #1e1b4b, #312e81);
+    -fx-border-color: #8b5cf6;
+    -fx-border-width: 0 2 0 0;
+}
+
+.mgr-dash-brand {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+}
+
+.mgr-dash-brand-sub {
+    -fx-text-fill: #7dd3fc;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+}
+
+.mgr-dash-user-card {
+    -fx-background-color: rgba(255, 255, 255, 0.10);
+    -fx-background-radius: 12;
+    -fx-border-color: #38bdf8;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 12;
+    -fx-padding: 11;
+}
+
+.mgr-dash-user-name {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.mgr-dash-user-role {
+    -fx-text-fill: #fde047;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+}
+
+.mgr-dash-nav-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e2e8f0;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 11 14;
+    -fx-font-size: 13.5px;
+    -fx-background-radius: 9;
+    -fx-cursor: hand;
+}
+
+.mgr-dash-nav-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+    -fx-text-fill: #ffffff;
+}
+
+.mgr-dash-logout {
+    -fx-background-color: linear-gradient(to right, #ef4444, #e11d48);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 10 14;
+    -fx-background-radius: 9;
+    -fx-cursor: hand;
+}
+
+.mgr-dash-center {
+    -fx-background-color: linear-gradient(to bottom right, #eef2ff, #fdf4ff, #ecfeff);
+}
+
+.mgr-dash-topbar {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10 18;
+    -fx-border-color: #8b5cf6;
+    -fx-border-width: 0 0 2 0;
+}
+
+.mgr-dash-arrow-btn {
+    -fx-background-color: #eef2ff;
+    -fx-text-fill: #3730a3;
+    -fx-font-weight: bold;
+    -fx-font-size: 12.5px;
+    -fx-padding: 6 12;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.mgr-dash-arrow-btn:disabled {
+    -fx-opacity: 0.45;
+}
+
+.mgr-dash-page-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.mgr-dash-chip {
+    -fx-background-color: linear-gradient(to right, #2563eb, #7c3aed);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 11.5px;
+    -fx-padding: 6 14;
+    -fx-background-radius: 999;
+}
+
+.mgr-dash-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.mgr-dash-hero {
+    -fx-background-color: linear-gradient(to right, #0f172a, #1d4ed8, #7c3aed, #db2777);
+    -fx-background-radius: 18;
+    -fx-border-color: #f472b6;
+    -fx-border-width: 2.5;
+    -fx-border-radius: 18;
+    -fx-padding: 22;
+}
+
+.mgr-dash-hero-tag {
+    -fx-text-fill: #fde047;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.mgr-dash-hero-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 21px;
+    -fx-font-weight: bold;
+}
+
+.mgr-dash-hero-sub {
+    -fx-text-fill: #f1f5f9;
+    -fx-font-size: 13px;
+}
+
+.mgr-dash-card-cyan {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-border-color: #06b6d4;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-padding: 16;
+}
+
+.mgr-dash-card-purple {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-border-color: #8b5cf6;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-padding: 16;
+}
+
+.mgr-dash-card-emerald {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-border-color: #10b981;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-padding: 16;
+}
+
+.mgr-dash-card-amber {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-border-color: #f59e0b;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-padding: 16;
+}
+
+.mgr-dash-card-rose {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-border-color: #f43f5e;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-padding: 16;
+}
+
+.mgr-dash-bar-cyan {
+    -fx-background-color: linear-gradient(to right, #06b6d4, #2563eb);
+    -fx-background-radius: 999;
+}
+
+.mgr-dash-bar-purple {
+    -fx-background-color: linear-gradient(to right, #8b5cf6, #ec4899);
+    -fx-background-radius: 999;
+}
+
+.mgr-dash-bar-emerald {
+    -fx-background-color: linear-gradient(to right, #10b981, #059669);
+    -fx-background-radius: 999;
+}
+
+.mgr-dash-bar-amber {
+    -fx-background-color: linear-gradient(to right, #f59e0b, #ea580c);
+    -fx-background-radius: 999;
+}
+
+.mgr-dash-bar-rose {
+    -fx-background-color: linear-gradient(to right, #f43f5e, #9333ea);
+    -fx-background-radius: 999;
+}
+
+.mgr-dash-card-title-cyan {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0369a1;
+}
+
+.mgr-dash-card-title-purple {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #7e22ce;
+}
+
+.mgr-dash-card-title-emerald {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #047857;
+}
+
+.mgr-dash-card-title-amber {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #c2410c;
+}
+
+.mgr-dash-card-title-rose {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #be123c;
+}
+
+.mgr-dash-card-desc {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #475569;
+}
+
+.mgr-dash-btn-cyan {
+    -fx-background-color: linear-gradient(to right, #06b6d4, #2563eb);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 8 12;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.mgr-dash-btn-purple {
+    -fx-background-color: linear-gradient(to right, #8b5cf6, #ec4899);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 8 12;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.mgr-dash-btn-emerald {
+    -fx-background-color: linear-gradient(to right, #10b981, #059669);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 8 12;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.mgr-dash-btn-amber {
+    -fx-background-color: linear-gradient(to right, #f59e0b, #ea580c);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 8 12;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.mgr-dash-btn-rose {
+    -fx-background-color: linear-gradient(to right, #f43f5e, #9333ea);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 8 12;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
