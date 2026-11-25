@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="mainBorderPane" prefHeight="800.0" prefWidth="1360.0" styleClass="root-bg" stylesheets="@../dashboard.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ManagerDashboardController">
+
+    <!-- Sidebar trái -->
+    <left>
+        <VBox prefWidth="275.0" spacing="9.0" style="-fx-border-color: linear-gradient(to bottom, #38bdf8, #a855f7, #ec4899); -fx-border-width: 0 2 0 0;" styleClass="sidebar-manager">
+            <padding>
+                <Insets bottom="20.0" left="14.0" right="14.0" top="22.0" />
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <ImageView fitHeight="38.0" fitWidth="38.0" preserveRatio="true">
+                    <image>
+                        <Image backgroundLoading="true" url="https://cdn-icons-png.flaticon.com/512/1995/1995574.png" />
+                    </image>
+                </ImageView>
+                <VBox>
+                    <Label styleClass="brand-title" text="AI HRM COMMAND" />
+                    <Label style="-fx-text-fill: #7dd3fc; -fx-font-size: 11.5px; -fx-font-weight: bold;" text="Quản trị &amp; Điều hành tập trung" />
+                </VBox>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-color: linear-gradient(to right, #38bdf8, #c084fc); -fx-border-width: 1.5; -fx-border-radius: 10;" styleClass="user-card">
+                <ImageView fitHeight="44.0" fitWidth="44.0" preserveRatio="true">
+                    <image>
+                        <Image backgroundLoading="true" url="https://ui-avatars.com/api/?name=Manager&amp;background=7c3aed&amp;color=fff&amp;rounded=true" />
+                    </image>
+                </ImageView>
+                <VBox spacing="2.0">
+                    <Label fx:id="lblWelcome" styleClass="user-name" text="Quản lý" wrapText="true" />
+                    <Label fx:id="lblRoleBadge" styleClass="user-role" text="Vai trò: MANAGER" />
+                </VBox>
+            </HBox>
+
+            <Separator style="-fx-opacity: 0.25;">
+                <VBox.margin>
+                    <Insets bottom="4.0" top="4.0" />
+                </VBox.margin>
+            </Separator>
+
+            <Button fx:id="btnNavOverview" maxWidth="Infinity" onAction="#showOverview" styleClass="nav-btn" text="🧭  Tổng quan Điều hành" />
+            <Button fx:id="btnNavAttendance" maxWidth="Infinity" onAction="#showAttendance" styleClass="nav-btn" text="📷  Chấm công Face ID" />
+            <Button fx:id="btnNavCV" maxWidth="Infinity" onAction="#showCVScreening" styleClass="nav-btn" text="📄  Sàng lọc CV &amp; Tuyển dụng" />
+            <Button fx:id="btnNavEmployee" maxWidth="Infinity" onAction="#showEmployeeMgmt" styleClass="nav-btn" text="👥  Quản lý Nhân sự" />
+            <Button fx:id="btnNavTask" maxWidth="Infinity" onAction="#showTaskMgmt" styleClass="nav-btn" text="📋  Quản lý Công việc" />
+            <Button fx:id="btnNavKPI" maxWidth="Infinity" onAction="#showKPIMgmt" styleClass="nav-btn" text="📊  Đánh giá KPI" />
+
+            <Region VBox.vgrow="ALWAYS" />
+
+            <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="logout-btn" text="🚪  Đăng xuất" />
+        </VBox>
+    </left>
+
+    <!-- Vùng trung tâm -->
+    <center>
+        <VBox maxHeight="Infinity" maxWidth="Infinity" spacing="12.0" style="-fx-background-color: linear-gradient(to bottom right, #eef2ff, #fdf4ff, #ecfeff);">
+            <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-border-color: linear-gradient(to right, #3b82f6, #a855f7, #06b6d4); -fx-border-width: 0 0 2 0;" styleClass="topbar">
+                <Button fx:id="btnBack" onAction="#handleBack" styleClass="nav-arrow-btn" text="◀ Lùi" />
+                <Button fx:id="btnForward" onAction="#handleForward" styleClass="nav-arrow-btn" text="Tiến ▶" />
+                <Label fx:id="lblCurrentPage" styleClass="page-title" text="Trung tâm Điều hành Quản lý">
+                    <HBox.margin>
+                        <Insets left="8.0" />
+                    </HBox.margin>
+                </Label>
+                <Region HBox.hgrow="ALWAYS" />
+                <Label style="-fx-background-color: linear-gradient(to right, #2563eb, #7c3aed); -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-font-size: 11.5px; -fx-padding: 6 14; -fx-background-radius: 999;" text="✦ 5 Phân hệ Quản trị • Gemini AI" />
+            </HBox>
+
+            <VBox fx:id="contentContainer" alignment="TOP_LEFT" maxWidth="Infinity" spacing="18.0" VBox.vgrow="ALWAYS">
+                <ScrollPane fx:id="overviewScroll" fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+                    <StackPane maxWidth="Infinity">
+                        <!-- Ảnh nền trang trí mờ phía sau -->
+                        <ImageView fitHeight="700.0" fitWidth="1060.0" opacity="0.06" preserveRatio="false">
+                            <image>
+                                <Image backgroundLoading="true" url="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" />
+                            </image>
+                        </ImageView>
+
+                        <VBox fx:id="overviewView" alignment="TOP_LEFT" maxWidth="Infinity" spacing="18.0">
+                            <padding>
+                                <Insets bottom="24.0" left="22.0" right="22.0" top="6.0" />
+                            </padding>
+
+                            <!-- Hero Banner viền cầu vồng rực rỡ -->
+                            <HBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="22.0" style="-fx-background-color: linear-gradient(to right, #0f172a, #1d4ed8, #7c3aed, #db2777); -fx-background-radius: 18; -fx-border-color: linear-gradient(to right, #38bdf8, #f472b6, #facc15, #34d399); -fx-border-width: 2.5; -fx-border-radius: 18; -fx-padding: 22; -fx-effect: dropshadow(gaussian, rgba(124, 58, 237, 0.25), 22, 0, 0, 8);">
+                                <ImageView fitHeight="122.0" fitWidth="185.0" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0, 0, 4);">
+                                    <image>
+                                        <Image backgroundLoading="true" url="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&amp;fit=crop&amp;w=600&amp;q=80" />
+                                    </image>
+                                </ImageView>
+                                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                    <Label style="-fx-text-fill: #fde047; -fx-font-size: 12px; -fx-font-weight: bold;" text="✦ TRUNG TÂM ĐIỀU HÀNH NHÂN SỰ AI HRM" />
+                                    <Label style="-fx-text-fill: #ffffff; -fx-font-size: 21px; -fx-font-weight: bold;" text="Quản lý toàn diện tuyển dụng, Face ID, nhân sự, công việc &amp; KPI" wrapText="true" />
+                                    <Label style="-fx-text-fill: #f1f5f9; -fx-font-size: 13px;" text="Chọn nhanh một phân hệ bên dưới hoặc dùng thanh menu bên trái để thao tác. Hỗ trợ Lùi / Tiến và tự động tắt camera khi chuyển màn hình." wrapText="true" />
+                                </VBox>
+                            </HBox>
+
+                            <!-- Hàng 1: 3 thẻ phân hệ viền màu rực rỡ -->
+                            <HBox maxWidth="Infinity" spacing="16.0">
+                                <!-- 1. Chấm công Face ID - Viền Ngọc lam & Xanh dương -->
+                                <VBox maxWidth="Infinity" spacing="10.0" style="-fx-background-color: #ffffff; -fx-background-radius: 15; -fx-border-color: linear-gradient(to bottom right, #06b6d4, #2563eb); -fx-border-width: 2; -fx-border-radius: 15; -fx-padding: 16; -fx-effect: dropshadow(gaussian, rgba(6, 182, 212, 0.18), 14, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                                    <Region maxWidth="Infinity" prefHeight="5.0" style="-fx-background-color: linear-gradient(to right, #06b6d4, #2563eb); -fx-background-radius: 999;" />
+                                    <ImageView fitHeight="125.0" fitWidth="290.0" preserveRatio="true">
+                                        <image>
+                                            <Image backgroundLoading="true" url="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&amp;fit=crop&amp;w=600&amp;q=80" />
+                                        </image>
+                                    </ImageView>
+                                    <Label style="-fx-text-fill: #0369a1; -fx-font-size: 15px;" styleClass="quick-card-title" text="📷 Chấm công Face ID" />
+                                    <Label styleClass="quick-card-desc" text="Quét khuôn mặt trên máy quản lý, đăng ký Face ID mẫu và check-in/check-out cho nhân viên." wrapText="true" />
+                                    <Button maxWidth="Infinity" onAction="#showAttendance" style="-fx-background-color: linear-gradient(to right, #06b6d4, #2563eb); -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" text="Mở Chấm công Face ID →" />
+                                </VBox>
+
+                                <!-- 2. Sàng lọc CV & Tuyển dụng - Viền Tím & Hồng -->
+                                <VBox maxWidth="Infinity" spacing="10.0" style="-fx-background-color: #ffffff; -fx-background-radius: 15; -fx-border-color: linear-gradient(to bottom right, #8b5cf6, #ec4899); -fx-border-width: 2; -fx-border-radius: 15; -fx-padding: 16; -fx-effect: dropshadow(gaussian, rgba(168, 85, 247, 0.18), 14, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                                    <Region maxWidth="Infinity" prefHeight="5.0" style="-fx-background-color: linear-gradient(to right, #8b5cf6, #ec4899); -fx-background-radius: 999;" />
+                                    <ImageView fitHeight="125.0" fitWidth="290.0" preserveRatio="true">
+                                        <image>
+                                            <Image backgroundLoading="true" url="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&amp;fit=crop&amp;w=600&amp;q=80" />
+                                        </image>
+                                    </ImageView>
+                                    <Label style="-fx-text-fill: #7e22ce; -fx-font-size: 15px;" styleClass="quick-card-title" text="📄 Sàng lọc CV &amp; Tuyển dụng" />
+                                    <Label styleClass="quick-card-desc" text="Xem điểm &amp; nhận xét AI, duyệt/từ chối ứng viên và tuyển dụng ứng viên APPROVED thành nhân viên." wrapText="true" />
+                                    <Button maxWidth="Infinity" onAction="#showCVScreening" style="-fx-background-color: linear-gradient(to right, #8b5cf6, #ec4899); -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" text="Mở Sàng lọc CV →" />
+                                </VBox>
+
+                                <!-- 3. Quản lý Nhân sự - Viền Xanh ngọc & Xanh lá -->
+                                <VBox maxWidth="Infinity" spacing="10.0" style="-fx-background-color: #ffffff; -fx-background-radius: 15; -fx-border-color: linear-gradient(to bottom right, #10b981, #059669); -fx-border-width: 2; -fx-border-radius: 15; -fx-padding: 16; -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.18), 14, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                                    <Region maxWidth="Infinity" prefHeight="5.0" style="-fx-background-color: linear-gradient(to right, #10b981, #059669); -fx-background-radius: 999;" />
+                                    <ImageView fitHeight="125.0" fitWidth="290.0" preserveRatio="true">
+                                        <image>
+                                            <Image backgroundLoading="true" url="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&amp;fit=crop&amp;w=600&amp;q=80" />
+                                        </image>
+                                    </ImageView>
+                                    <Label style="-fx-text-fill: #047857; -fx-font-size: 15px;" styleClass="quick-card-title" text="👥 Quản lý Nhân sự" />
+                                    <Label styleClass="quick-card-desc" text="Quản lý danh sách nhân viên, cập nhật chức vụ, lương cơ bản, phòng ban và nhân sự theo nhóm." wrapText="true" />
+                                    <Button maxWidth="Infinity" onAction="#showEmployeeMgmt" style="-fx-background-color: linear-gradient(to right, #10b981, #059669); -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" text="Mở Quản lý Nhân sự →" />
+                                </VBox>
+                            </HBox>
+
+                            <!-- Hàng 2: 2 thẻ lớn còn lại viền Cam - Vàng & Đỏ hồng - Tím -->
+                            <HBox maxWidth="Infinity" spacing="16.0">
+                                <!-- 4. Quản lý Công việc -->
+                                <VBox maxWidth="Infinity" spacing="10.0" style="-fx-background-color: #ffffff; -fx-background-radius: 15; -fx-border-color: linear-gradient(to bottom right, #f59e0b, #ea580c); -fx-border-width: 2; -fx-border-radius: 15; -fx-padding: 16; -fx-effect: dropshadow(gaussian, rgba(245, 158, 11, 0.18), 14, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                                    <Region maxWidth="Infinity" prefHeight="5.0" style="-fx-background-color: linear-gradient(to right, #f59e0b, #ea580c); -fx-background-radius: 999;" />
+                                    <ImageView fitHeight="125.0" fitWidth="370.0" preserveRatio="true">
+                                        <image>
+                                            <Image backgroundLoading="true" url="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&amp;fit=crop&amp;w=600&amp;q=80" />
+                                        </image>
+                                    </ImageView>
+                                    <Label style="-fx-text-fill: #c2410c; -fx-font-size: 15px;" styleClass="quick-card-title" text="📋 Quản lý Công việc (Task)" />
+                                    <Label styleClass="quick-card-desc" text="Giao nhiệm vụ mới, thiết lập deadline, xác nhận hoàn thành hoặc yêu cầu làm lại và quản lý toàn bộ task." wrapText="true" />
+                                    <Button maxWidth="Infinity" onAction="#showTaskMgmt" style="-fx-background-color: linear-gradient(to right, #f59e0b, #ea580c); -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" text="Mở Quản lý Công việc →" />
+                                </VBox>
+
+                                <!-- 5. Đánh giá KPI -->
+                                <VBox maxWidth="Infinity" spacing="10.0" style="-fx-background-color: #ffffff; -fx-background-radius: 15; -fx-border-color: linear-gradient(to bottom right, #f43f5e, #9333ea); -fx-border-width: 2; -fx-border-radius: 15; -fx-padding: 16; -fx-effect: dropshadow(gaussian, rgba(244, 63, 94, 0.18), 14, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                                    <Region maxWidth="Infinity" prefHeight="5.0" style="-fx-background-color: linear-gradient(to right, #f43f5e, #9333ea); -fx-background-radius: 999;" />
+                                    <ImageView fitHeight="125.0" fitWidth="370.0" preserveRatio="true">
+                                        <image>
+                                            <Image backgroundLoading="true" url="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&amp;fit=crop&amp;w=600&amp;q=80" />
+                                        </image>
+                                    </ImageView>
+                                    <Label style="-fx-text-fill: #be123c; -fx-font-size: 15px;" styleClass="quick-card-title" text="📊 Đánh giá KPI &amp; Thưởng AI" />
+                                    <Label styleClass="quick-card-desc" text="Tổng hợp tiến độ công việc, ngày làm, phút đi muộn theo tháng để Gemini AI đánh giá KPI và đề xuất thưởng." wrapText="true" />
+                                    <Button maxWidth="Infinity" onAction="#showKPIMgmt" style="-fx-background-color: linear-gradient(to right, #f43f5e, #9333ea); -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" text="Mở Đánh giá KPI →" />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </StackPane>
+                </ScrollPane>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

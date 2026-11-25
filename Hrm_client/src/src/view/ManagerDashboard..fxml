@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="mainBorderPane" prefHeight="740.0" prefWidth="1220.0"
+            styleClass="root-bg" stylesheets="@dashboard.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controller.ManagerDashboardController">
+
+    <left>
+        <VBox prefWidth="260.0" spacing="10.0" styleClass="sidebar-manager">
+            <padding>
+                <Insets bottom="20.0" left="14.0" right="14.0" top="22.0"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <ImageView fitHeight="36.0" fitWidth="36.0" preserveRatio="true">
+                    <image>
+                        <Image url="https://cdn-icons-png.flaticon.com/512/1995/1995574.png" backgroundLoading="true"/>
+                    </image>
+                </ImageView>
+                <VBox>
+                    <Label text="AI HRM" styleClass="brand-title"/>
+                    <Label text="Bảng điều khiển Quản lý" style="-fx-text-fill: #93c5fd; -fx-font-size: 11.5px;"/>
+                </VBox>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="user-card">
+                <ImageView fitHeight="42.0" fitWidth="42.0" preserveRatio="true">
+                    <image>
+                        <Image url="https://ui-avatars.com/api/?name=Manager&amp;background=2563eb&amp;color=fff&amp;rounded=true" backgroundLoading="true"/>
+                    </image>
+                </ImageView>
+                <VBox spacing="2.0">
+                    <Label fx:id="lblWelcome" text="Quản lý" styleClass="user-name" wrapText="true"/>
+                    <Label text="Tuyển dụng • Nhân sự • KPI" styleClass="user-role"/>
+                </VBox>
+            </HBox>
+
+            <Separator style="-fx-opacity: 0.25;">
+                <VBox.margin>
+                    <Insets bottom="4.0" top="4.0"/>
+                </VBox.margin>
+            </Separator>
+
+            <Button fx:id="btnNavCV" maxWidth="Infinity" onAction="#showCVScreening"
+                    styleClass="nav-btn" text="📄  Sàng lọc CV &amp; Tuyển dụng"/>
+            <Button fx:id="btnNavEmployee" maxWidth="Infinity" onAction="#showEmployeeMgmt"
+                    styleClass="nav-btn" text="👥  Quản lý Nhân sự"/>
+            <Button fx:id="btnNavTask" maxWidth="Infinity" onAction="#showTaskMgmt"
+                    styleClass="nav-btn" text="📋  Quản lý Công việc"/>
+            <Button fx:id="btnNavKPI" maxWidth="Infinity" onAction="#showKPIMgmt"
+                    styleClass="nav-btn" text="📊  Đánh giá KPI"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="logout-btn" text="🚪  Đăng xuất"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="16.0" maxWidth="Infinity" maxHeight="Infinity">
+            <HBox alignment="CENTER_LEFT" spacing="8.0" styleClass="topbar">
+                <Button fx:id="btnBack" onAction="#handleBack" styleClass="nav-arrow-btn" text="◀ Lùi"/>
+                <Button fx:id="btnForward" onAction="#handleForward" styleClass="nav-arrow-btn" text="Tiến ▶"/>
+                <Label fx:id="lblCurrentPage" text="Sàng lọc CV &amp; Tuyển dụng" styleClass="page-title">
+                    <HBox.margin>
+                        <Insets left="8.0"/>
+                    </HBox.margin>
+                </Label>
+            </HBox>
+
+            <VBox alignment="TOP_LEFT" spacing="18.0" maxWidth="Infinity" VBox.vgrow="ALWAYS">
+                <padding>
+                    <Insets bottom="20.0" left="22.0" right="22.0" top="4.0"/>
+                </padding>
+
+                <!-- Banner nằm gọn ở phía trên -->
+                <HBox alignment="CENTER_LEFT" spacing="20.0" maxWidth="Infinity" styleClass="welcome-banner">
+                    <ImageView fitHeight="105.0" fitWidth="155.0" preserveRatio="true">
+                        <image>
+                            <Image url="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&amp;fit=crop&amp;w=500&amp;q=80" backgroundLoading="true"/>
+                        </image>
+                    </ImageView>
+                    <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                        <Label text="Trung tâm điều hành nhân sự &amp; tuyển dụng"
+                               style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                        <Label text="Sàng lọc CV tự động bằng Gemini AI, duyệt hồ sơ ứng viên và theo dõi nhân sự, công việc, KPI toàn hệ thống."
+                               style="-fx-text-fill: #64748b; -fx-font-size: 13px;" wrapText="true"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Cụm thẻ nổi bật bên dưới để lấp khoảng trống -->
+                <HBox spacing="16.0" maxWidth="Infinity">
+                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="quick-card">
+                        <ImageView fitHeight="115.0" fitWidth="260.0" preserveRatio="true">
+                            <image>
+                                <Image url="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&amp;fit=crop&amp;w=500&amp;q=80" backgroundLoading="true"/>
+                            </image>
+                        </ImageView>
+                        <Label text="Sàng lọc CV AI" styleClass="quick-card-title"/>
+                        <Label text="Chấm điểm CV, đánh giá mức độ phù hợp và tuyển dụng ứng viên."
+                               styleClass="quick-card-desc" wrapText="true"/>
+                    </VBox>
+
+                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="quick-card">
+                        <ImageView fitHeight="115.0" fitWidth="260.0" preserveRatio="true">
+                            <image>
+                                <Image url="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&amp;fit=crop&amp;w=500&amp;q=80" backgroundLoading="true"/>
+                            </image>
+                        </ImageView>
+                        <Label text="Nhân sự &amp; Chấm công Face ID" styleClass="quick-card-title"/>
+                        <Label text="Quản lý hồ sơ nhân viên, lương, phòng ban và dữ liệu chấm công."
+                               styleClass="quick-card-desc" wrapText="true"/>
+                    </VBox>
+
+                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="quick-card">
+                        <ImageView fitHeight="115.0" fitWidth="260.0" preserveRatio="true">
+                            <image>
+                                <Image url="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&amp;fit=crop&amp;w=500&amp;q=80" backgroundLoading="true"/>
+                            </image>
+                        </ImageView>
+                        <Label text="Công việc &amp; Hiệu suất KPI" styleClass="quick-card-title"/>
+                        <Label text="Theo dõi tiến độ giao việc và tổng hợp đánh giá hiệu suất định kỳ."
+                               styleClass="quick-card-desc" wrapText="true"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

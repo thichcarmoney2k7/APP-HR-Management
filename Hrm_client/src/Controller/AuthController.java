@@ -147,19 +147,16 @@ public class AuthController {
 
         switch (role.toUpperCase()) {
             case "CANDIDATE":
-                // Chuyển sang màn hình Nộp CV cho AI chấm & Phỏng vấn AI (UserInterviewController)
-                switchScene(event, "/view/user_interview.fxml", "Cổng Ứng Viên - Chấm CV & Phỏng Vấn AI");
+                switchScene(event, "/view/CandidateDashboard.fxml", "AI HRM - Cổng Ứng viên");
                 break;
 
             case "EMPLOYEE":
-                // Chuyển sang màn hình Check-in khuôn mặt / Nhận Task & Xem KPI
-                switchScene(event, "/view/user_attendance.fxml", "Nhân Viên - Chấm Công & Công Việc");
+                switchScene(event, "/view/EmployeeDashboard.fxml", "AI HRM - Không gian Nhân viên");
                 break;
 
             case "MANAGER":
             case "ADMIN":
-                // Chuyển sang cụm màn hình Quản trị
-                switchScene(event, "/view/admin_employee_mgmt.fxml", "Quản Lý Nhân Sự & Đánh Giá KPI");
+                switchScene(event, "/view/ManagerDashboard.fxml", "AI HRM - Bảng điều khiển Quản lý");
                 break;
 
             default:
@@ -189,3 +186,4 @@ public class AuthController {
         }
     }
 }
+

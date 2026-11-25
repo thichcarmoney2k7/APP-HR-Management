@@ -6,11 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import service.AttendanceClientService;
-import service.EmployeeClientService;
 import util.SessionManager;
-import util.WebcamUtils;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,13 +16,7 @@ import java.util.List;
 
 public class UserAttendanceController {
 
-    // --- Khu vực Camera quét mặt ---
-    @FXML private ImageView imgWebcam;
-    @FXML private Button btnRegisterFace;
-    @FXML private Button btnCheckIn;
-    @FXML private Button btnCheckOut;
-
-    // --- Khu vực hiển thị trạng thái ca làm việc hôm nay ---
+    // --- Trạng thái ca làm việc hôm nay ---
     @FXML private Label lblEmployeeName;
     @FXML private Label lblTodayDate;
     @FXML private Label lblCheckInTime;
@@ -44,14 +35,16 @@ public class UserAttendanceController {
     @FXML private TableColumn<AttendanceResponse, String> colStatus;
 
     private final AttendanceClientService attendanceService = new AttendanceClientService();
-    private final EmployeeClientService employeeService = new EmployeeClientService();
 
     @FXML
     public void initialize() {
         setupTableColumns();
 
-        if (lblEmployeeName != null && SessionManager.getFullName() != null) {
-            lblEmployeeName.setText("Nhân viên: " + SessionManager.getFullName());
+        if (lblEmployeeName != null) {
+            String name = SessionManager.getFullName() != null && !SessionManager.getFullName().isBlank()
+                    ? SessionManager.getFullName()
+                    : SessionManager.getUsername();
+            lblEmployeeName.setText("Nhân viên: " + (name != null ? name : ""));
         }
         if (lblTodayDate != null) {
             lblTodayDate.setText("Ngày: " + LocalDate.now());
@@ -60,8 +53,10 @@ public class UserAttendanceController {
             txtMonthFilter.setText(YearMonth.now().toString());
         }
 
-        // Mở camera trên luồng phụ để không làm khựng giao diện khi mới chuyển tab
-        handleStartCamera();
+        if (SessionManager.getEmployeeId() == null) {
+            showMessage("Tài khoản của bạn chưa được liên kết hồ sơ nhân viên (employeeId).", true);
+            return;
+        }
 
         loadTodayStatus();
         loadFullHistory();
@@ -76,143 +71,15 @@ public class UserAttendanceController {
         if (colStatus != null) colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
-    // Bật camera (có thể gắn thêm vào nút "Bật Camera" nếu FXML có)
-    @FXML
-    public void handleStartCamera() {
-        if (imgWebcam == null) return;
-        new Thread(() -> {
-            try {
-                WebcamUtils.startCamera(imgWebcam);
-            } catch (Exception e) {
-                Platform.runLater(() -> showMessage("Không mở được Webcam: " + e.getMessage(), true));
-            }
-        }).start();
-    }
-
-    // Tắt camera (có thể gắn thêm vào nút "Tắt Camera" nếu FXML có)
-    @FXML
-    public void handleStopCamera() {
-        WebcamUtils.stopCamera();
-        if (imgWebcam != null) {
-            imgWebcam.setImage(null);
-        }
-    }
-
-    // 1. Nút Check-in bằng quét khuôn mặt
-    @FXML
-    public void handleCheckIn() {
-        Long employeeId = SessionManager.getEmployeeId();
-        if (employeeId == null) {
-            showMessage("Không tìm thấy mã nhân viên (employeeId) trong phiên đăng nhập!", true);
-            return;
-        }
-
-        String faceData = captureFaceDataFromWebcam();
-        if (faceData == null || faceData.isBlank()) {
-            return; // Thông báo lỗi đã hiển thị trong captureFaceDataFromWebcam()
-        }
-
-        setButtonsDisabled(true);
-        showMessage("Đang nhận diện khuôn mặt và check-in...", false);
-
-        new Thread(() -> {
-            try {
-                AttendanceResponse res = attendanceService.checkIn(employeeId, faceData);
-                Platform.runLater(() -> {
-                    setButtonsDisabled(false);
-                    if (res != null && res.getAttendanceId() != null) {
-                        showMessage(res.getMessage(), false);
-                        updateTodayLabels(res);
-                        loadFullHistory();
-                    } else {
-                        String err = (res != null && res.getMessage() != null) ? res.getMessage() : "Check-in thất bại!";
-                        showMessage(err, true);
-                    }
-                });
-            } catch (Exception e) {
-                Platform.runLater(() -> {
-                    setButtonsDisabled(false);
-                    showMessage(e.getMessage(), true);
-                });
-            }
-        }).start();
-    }
-
-    // 2. Nút Check-out kết thúc ca làm việc
-    @FXML
-    public void handleCheckOut() {
-        Long employeeId = SessionManager.getEmployeeId();
-        if (employeeId == null) {
-            showMessage("Không tìm thấy mã nhân viên trong phiên đăng nhập!", true);
-            return;
-        }
-
-        setButtonsDisabled(true);
-        showMessage("Đang xử lý check-out...", false);
-
-        new Thread(() -> {
-            try {
-                AttendanceResponse res = attendanceService.checkOut(employeeId);
-                Platform.runLater(() -> {
-                    setButtonsDisabled(false);
-                    if (res != null && res.getCheckOutTime() != null) {
-                        showMessage(res.getMessage() + " (Tổng giờ làm: " + res.getWorkHours() + "h)", false);
-                        updateTodayLabels(res);
-                        loadFullHistory();
-                    } else {
-                        String err = (res != null && res.getMessage() != null) ? res.getMessage() : "Check-out thất bại!";
-                        showMessage(err, true);
-                    }
-                });
-            } catch (Exception e) {
-                Platform.runLater(() -> {
-                    setButtonsDisabled(false);
-                    showMessage(e.getMessage(), true);
-                });
-            }
-        }).start();
-    }
-
-    // 3. Nút Đăng ký khuôn mặt lần đầu
-    @FXML
-    public void handleRegisterFace() {
-        Long employeeId = SessionManager.getEmployeeId();
-        if (employeeId == null) {
-            showMessage("Không tìm thấy mã nhân viên trong phiên đăng nhập!", true);
-            return;
-        }
-
-        String faceData = captureFaceDataFromWebcam();
-        if (faceData == null || faceData.isBlank()) {
-            return;
-        }
-
-        setButtonsDisabled(true);
-        showMessage("Đang lưu dữ liệu khuôn mặt mẫu lên hệ thống...", false);
-
-        new Thread(() -> {
-            try {
-                employeeService.registerFaceId(employeeId, faceData);
-                Platform.runLater(() -> {
-                    setButtonsDisabled(false);
-                    showMessage("Đăng ký khuôn mặt thành công! Bạn đã có thể bấm Check-in.", false);
-                });
-            } catch (Exception e) {
-                Platform.runLater(() -> {
-                    setButtonsDisabled(false);
-                    showMessage("Lỗi đăng ký khuôn mặt: " + e.getMessage(), true);
-                });
-            }
-        }).start();
-    }
-
-    // 4. Lọc bảng công theo tháng (yyyy-MM)
     @FXML
     public void handleFilterByMonth() {
         Long employeeId = SessionManager.getEmployeeId();
         if (employeeId == null) return;
 
-        String monthYear = (txtMonthFilter != null) ? txtMonthFilter.getText().trim() : YearMonth.now().toString();
+        String monthYear = (txtMonthFilter != null && !txtMonthFilter.getText().isBlank())
+                ? txtMonthFilter.getText().trim()
+                : YearMonth.now().toString();
+
         new Thread(() -> {
             try {
                 List<AttendanceResponse> list = attendanceService.getMonthlyAttendance(employeeId, monthYear);
@@ -228,7 +95,6 @@ public class UserAttendanceController {
         }).start();
     }
 
-    // 5. Tải toàn bộ lịch sử chấm công
     @FXML
     public void loadFullHistory() {
         Long employeeId = SessionManager.getEmployeeId();
@@ -241,6 +107,7 @@ public class UserAttendanceController {
                     if (tblAttendance != null) {
                         tblAttendance.setItems(FXCollections.observableArrayList(list));
                     }
+                    showMessage("Đã tải toàn bộ lịch sử chấm công (" + list.size() + " bản ghi).", false);
                 });
             } catch (Exception e) {
                 Platform.runLater(() -> showMessage("Lỗi tải lịch sử chấm công: " + e.getMessage(), true));
@@ -280,21 +147,6 @@ public class UserAttendanceController {
             lblTodayStatus.setText("Trạng thái: " + att.getStatus()
                     + (att.getLateMinutes() > 0 ? " (Muộn " + att.getLateMinutes() + " phút)" : ""));
         }
-    }
-
-    private String captureFaceDataFromWebcam() {
-        try {
-            return WebcamUtils.captureBase64();
-        } catch (Exception e) {
-            showMessage(e.getMessage(), true);
-            return null;
-        }
-    }
-
-    private void setButtonsDisabled(boolean disabled) {
-        if (btnRegisterFace != null) btnRegisterFace.setDisable(disabled);
-        if (btnCheckIn != null) btnCheckIn.setDisable(disabled);
-        if (btnCheckOut != null) btnCheckOut.setDisable(disabled);
     }
 
     private void showMessage(String msg, boolean isError) {

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" styleClass="root-bg" stylesheets="@../dashboard.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controller.AdminEmployeeMgmtController">
+
+    <VBox spacing="16.0" maxWidth="Infinity">
+        <padding>
+            <Insets bottom="22.0" left="22.0" right="22.0" top="10.0"/>
+        </padding>
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="16.0" maxWidth="Infinity" styleClass="welcome-banner">
+            <ImageView fitHeight="72.0" fitWidth="105.0" preserveRatio="true">
+                <image>
+                    <Image url="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&amp;fit=crop&amp;w=400&amp;q=80"
+                           backgroundLoading="true"/>
+                </image>
+            </ImageView>
+            <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                <Label text="Quản lý Hồ sơ Nhân sự &amp; Tuyển dụng"
+                       style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                <Label text="Xem danh sách nhân viên, cập nhật lương/chức vụ/phòng ban, tuyển dụng ứng viên hoặc xóa hồ sơ."
+                       style="-fx-text-fill: #64748b; -fx-font-size: 12.5px;" wrapText="true"/>
+            </VBox>
+            <HBox spacing="8.0">
+                <Button onAction="#loadAllEmployees" text="Tất cả NV" styleClass="nav-arrow-btn"/>
+                <Button onAction="#loadMyTeamEmployees" text="Nhóm của tôi" styleClass="nav-arrow-btn"/>
+            </HBox>
+        </HBox>
+
+        <Label fx:id="lblStatusMessage" text="" style="-fx-font-weight: bold; -fx-font-size: 12.5px;" wrapText="true"/>
+
+        <!-- Bảng nhân viên -->
+        <VBox spacing="8.0" styleClass="quick-card" style="-fx-cursor: default;">
+            <Label text="Danh sách nhân viên" styleClass="quick-card-title"/>
+            <TableView fx:id="tblEmployees" prefHeight="230.0" maxWidth="Infinity">
+                <columns>
+                    <TableColumn fx:id="colId" prefWidth="60.0" text="ID"/>
+                    <TableColumn fx:id="colFullName" prefWidth="165.0" text="Họ tên"/>
+                    <TableColumn fx:id="colEmail" prefWidth="185.0" text="Email"/>
+                    <TableColumn fx:id="colPhone" prefWidth="120.0" text="Số điện thoại"/>
+                    <TableColumn fx:id="colPosition" prefWidth="140.0" text="Chức vụ"/>
+                    <TableColumn fx:id="colDepartmentId" prefWidth="95.0" text="Phòng ban"/>
+                    <TableColumn fx:id="colBaseSalary" prefWidth="120.0" text="Lương cơ bản"/>
+                    <TableColumn fx:id="colExperience" prefWidth="95.0" text="Kinh nghiệm"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Form chi tiết & thao tác -->
+        <HBox spacing="16.0" maxWidth="Infinity">
+            <!-- Cập nhật hồ sơ -->
+            <VBox spacing="10.0" HBox.hgrow="ALWAYS" styleClass="quick-card" style="-fx-cursor: default;">
+                <Label text="Cập nhật hồ sơ nhân viên đang chọn" styleClass="quick-card-title"/>
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="120.0"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                        <ColumnConstraints prefWidth="120.0"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <Label text="Họ tên:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtFullName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Email:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                    <TextField fx:id="txtEmail" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+                    <Label text="Số điện thoại:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtPhone" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="Chức vụ:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                    <TextField fx:id="txtPosition" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                    <Label text="Mã phòng ban:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtDepartmentId" promptText="VD: 1" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <Label text="Lương cơ bản:" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                    <TextField fx:id="txtBaseSalary" promptText="VD: 15000000" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+
+                    <Label text="Năm kinh nghiệm:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtExperience" promptText="VD: 2" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <HBox spacing="10.0">
+                    <padding><Insets top="4.0"/></padding>
+                    <Button onAction="#handleUpdateEmployee" text="Lưu cập nhật"
+                            style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 14; -fx-background-radius: 7; -fx-cursor: hand;"/>
+                    <Button onAction="#handleDeleteEmployee" text="Xóa nhân viên"
+                            style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 14; -fx-background-radius: 7; -fx-cursor: hand;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Tuyển dụng nhanh & giao việc nhanh -->
+            <VBox spacing="12.0" prefWidth="360.0">
+                <VBox spacing="8.0" styleClass="quick-card" style="-fx-cursor: default;">
+                    <Label text="Tuyển dụng nhanh từ Candidate ID" styleClass="quick-card-title"/>
+                    <TextField fx:id="txtHireCandidateId" promptText="ID ứng viên (VD: 5)"/>
+                    <HBox spacing="8.0">
+                        <TextField fx:id="txtHireBaseSalary" promptText="Lương (VD: 12000000)" HBox.hgrow="ALWAYS"/>
+                        <TextField fx:id="txtHireDepartmentId" promptText="Phòng ban (VD: 1)" prefWidth="130.0"/>
+                    </HBox>
+                    <Button maxWidth="Infinity" onAction="#handleHireCandidate" text="Tuyển dụng chính thức"
+                            style="-fx-background-color: #0d9488; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 7; -fx-cursor: hand;"/>
+                </VBox>
+
+                <VBox spacing="8.0" styleClass="quick-card" style="-fx-cursor: default;">
+                    <Label text="Soạn nhanh thông tin công việc" styleClass="quick-card-title"/>
+                    <TextField fx:id="txtTaskTitle" promptText="Tiêu đề công việc"/>
+                    <TextArea fx:id="txtTaskDescription" prefHeight="58.0" promptText="Mô tả chi tiết..." wrapText="true"/>
+                    <DatePicker fx:id="dpTaskDeadline" maxWidth="Infinity" promptText="Hạn chót (Deadline)"/>
+                </VBox>
+            </VBox>
+        </HBox>
+    </VBox>
+</ScrollPane>

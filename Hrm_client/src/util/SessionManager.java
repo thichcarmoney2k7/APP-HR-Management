@@ -57,4 +57,8 @@ public class SessionManager {
     public static String getRole() {
         return role;
     }
+
+    public static void clear() {
+        clearSession();
+    }
 }

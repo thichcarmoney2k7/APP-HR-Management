@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" styleClass="root-bg" stylesheets="@../dashboard.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controller.AdminKPIController">
+
+    <VBox spacing="16.0" maxWidth="Infinity">
+        <padding>
+            <Insets bottom="22.0" left="22.0" right="22.0" top="10.0"/>
+        </padding>
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="16.0" maxWidth="Infinity" styleClass="welcome-banner">
+            <ImageView fitHeight="72.0" fitWidth="105.0" preserveRatio="true">
+                <image>
+                    <Image url="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&amp;fit=crop&amp;w=400&amp;q=80"
+                           backgroundLoading="true"/>
+                </image>
+            </ImageView>
+            <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                <Label text="Đánh giá KPI &amp; Thưởng hiệu suất bằng AI"
+                       style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                <Label text="Tổng hợp tiến độ công việc, chuyên cần và để Gemini AI đánh giá KPI theo tháng."
+                       style="-fx-text-fill: #64748b; -fx-font-size: 12.5px;" wrapText="true"/>
+            </VBox>
+        </HBox>
+
+        <!-- Thanh chọn nhân viên & tháng -->
+        <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="quick-card" style="-fx-cursor: default;">
+            <Label text="Nhân viên:" style="-fx-font-weight: bold;"/>
+            <ComboBox fx:id="cboEmployee" prefWidth="240.0"/>
+            <Label text="Tháng (yyyy-MM):" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="txtMonthYear" prefWidth="120.0" promptText="2026-11"/>
+            <Button fx:id="btnEvaluateKPI" onAction="#handleEvaluateKPI" text="Đánh giá KPI bằng AI"
+                    style="-fx-background-color: #7c3aed; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 14; -fx-background-radius: 7; -fx-cursor: hand;"/>
+            <Button fx:id="btnLoadReport" onAction="#loadCompanyReport" text="Tải báo cáo tháng"
+                    styleClass="nav-arrow-btn"/>
+        </HBox>
+
+        <Label fx:id="lblStatusMessage" text="" style="-fx-font-weight: bold; -fx-font-size: 12.5px;" wrapText="true"/>
+
+        <!-- Bảng KPI toàn công ty + chi tiết -->
+        <HBox spacing="16.0" maxWidth="Infinity">
+            <VBox spacing="8.0" HBox.hgrow="ALWAYS" styleClass="quick-card" style="-fx-cursor: default;">
+                <Label text="Báo cáo KPI theo tháng" styleClass="quick-card-title"/>
+                <TableView fx:id="tblCompanyKPI" prefHeight="250.0" maxWidth="Infinity">
+                    <columns>
+                        <TableColumn fx:id="colEmployeeId" prefWidth="70.0" text="Mã NV"/>
+                        <TableColumn fx:id="colEmployeeName" prefWidth="180.0" text="Họ tên"/>
+                        <TableColumn fx:id="colMonthYear" prefWidth="105.0" text="Tháng"/>
+                        <TableColumn fx:id="colCompletionRate" prefWidth="125.0" text="Tỷ lệ (%)"/>
+                        <TableColumn fx:id="colBonusAmount" prefWidth="145.0" text="Thưởng đề xuất"/>
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <VBox spacing="8.0" prefWidth="360.0" styleClass="quick-card" style="-fx-cursor: default;">
+                <Label text="Chi tiết đánh giá" styleClass="quick-card-title"/>
+                <Label fx:id="lblTaskStats" text="Tiến độ Task: --" style="-fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+                <Label fx:id="lblAttendanceStats" text="Chuyên cần: --" style="-fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+                <Label fx:id="lblBonusDetail" text="Thưởng đề xuất: --" style="-fx-font-weight: bold; -fx-text-fill: #0d9488;"/>
+                <TextArea fx:id="txtAiFeedback" editable="false" prefHeight="155.0" wrapText="true"
+                          promptText="Nhận xét chi tiết từ AI..."/>
+            </VBox>
+        </HBox>
+    </VBox>
+</ScrollPane>

@@ -42,16 +42,22 @@ public class WebcamUtils {
             while (isRunning.get() && webcam != null && webcam.isOpen()) {
                 try {
                     BufferedImage bImage = webcam.getImage();
-                    if (bImage != null && imageView != null) {
+                    if (bImage != null && imageView != null && isRunning.get()) {
                         Image fxImage = SwingFXUtils.toFXImage(bImage, null);
-                        Platform.runLater(() -> imageView.setImage(fxImage));
+                        Platform.runLater(() -> {
+                            if (isRunning.get()) {
+                                imageView.setImage(fxImage);
+                            }
+                        });
                     }
                     Thread.sleep(33); // ~30 FPS
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
                 } catch (Exception e) {
-                    System.err.println("Lỗi luồng đọc hình ảnh Webcam: " + e.getMessage());
+                    if (isRunning.get()) {
+                        System.err.println("Lỗi luồng đọc hình ảnh Webcam: " + e.getMessage());
+                    }
                 }
             }
         }, "Webcam-Stream-Thread");

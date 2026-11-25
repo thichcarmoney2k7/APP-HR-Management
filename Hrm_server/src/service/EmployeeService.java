@@ -138,15 +138,20 @@ public class EmployeeService {
      * Nhân viên/HR chụp ảnh từ Webcam JavaFX -> Trích xuất mã Face ID và lưu vào DB
      */
     public Employee registerFaceId(Long employeeId, String imageBase64) {
-        Employee employee = getEmployeeById(employeeId);
-
-        // Chuyển ảnh Base64 thành chuỗi đặc trưng Face ID trước khi lưu
-        String extractedFaceId = faceRecognitionService.extractFaceFeature(imageBase64);
-        if (extractedFaceId == null) {
+        if (imageBase64 == null || imageBase64.isBlank()) {
             throw new RuntimeException("Dữ liệu ảnh khuôn mặt không hợp lệ!");
         }
 
-        employee.setFaceId(extractedFaceId);
+        Employee employee = getEmployeeById(employeeId);
+
+        // Lọc prefix data:image/...;base64, nếu có để lưu chuỗi Base64 sạch
+        String trimmed = imageBase64.trim();
+        int commaIndex = trimmed.indexOf(',');
+        String cleanBase64 = (trimmed.startsWith("data:") && commaIndex != -1)
+                ? trimmed.substring(commaIndex + 1)
+                : trimmed;
+
+        employee.setFaceId(cleanBase64);
         return employeeRepository.save(employee);
     }
 

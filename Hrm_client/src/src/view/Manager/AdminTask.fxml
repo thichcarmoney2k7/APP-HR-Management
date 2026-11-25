@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" styleClass="root-bg" stylesheets="@../dashboard.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controller.AdminTaskController">
+
+    <VBox spacing="16.0" maxWidth="Infinity">
+        <padding>
+            <Insets bottom="22.0" left="22.0" right="22.0" top="10.0"/>
+        </padding>
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="16.0" maxWidth="Infinity" styleClass="welcome-banner">
+            <ImageView fitHeight="72.0" fitWidth="105.0" preserveRatio="true">
+                <image>
+                    <Image url="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&amp;fit=crop&amp;w=400&amp;q=80"
+                           backgroundLoading="true"/>
+                </image>
+            </ImageView>
+            <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                <Label text="Quản lý &amp; Giao việc cho Nhân sự"
+                       style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                <Label text="Giao nhiệm vụ mới, đặt deadline và theo dõi trạng thái hoàn thành công việc của nhân viên."
+                       style="-fx-text-fill: #64748b; -fx-font-size: 12.5px;" wrapText="true"/>
+            </VBox>
+        </HBox>
+
+        <Label fx:id="lblStatusMessage" text="" style="-fx-font-weight: bold; -fx-font-size: 12.5px;" wrapText="true"/>
+
+        <!-- Form giao việc + Bảng công việc -->
+        <HBox spacing="16.0" maxWidth="Infinity">
+            <VBox spacing="10.0" prefWidth="350.0" styleClass="quick-card" style="-fx-cursor: default;">
+                <Label text="Giao việc mới" styleClass="quick-card-title"/>
+                <Label text="Chọn nhân viên:" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
+                <ComboBox fx:id="cboEmployee" maxWidth="Infinity"/>
+
+                <Label text="Tiêu đề công việc:" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
+                <TextField fx:id="txtTitle" promptText="VD: Hoàn thiện module báo cáo"/>
+
+                <Label text="Mô tả chi tiết:" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
+                <TextArea fx:id="txtDescription" prefHeight="90.0" wrapText="true" promptText="Nội dung công việc..."/>
+
+                <Label text="Hạn hoàn thành (Deadline):" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
+                <DatePicker fx:id="dpDeadline" maxWidth="Infinity"/>
+
+                <Button fx:id="btnAssignTask" maxWidth="Infinity" onAction="#handleAssignTask" text="Giao việc"
+                        style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 9 14; -fx-background-radius: 7; -fx-cursor: hand;"/>
+            </VBox>
+
+            <VBox spacing="8.0" HBox.hgrow="ALWAYS" styleClass="quick-card" style="-fx-cursor: default;">
+                <Label text="Danh sách công việc đã giao" styleClass="quick-card-title"/>
+                <TableView fx:id="tblTasks" prefHeight="330.0" maxWidth="Infinity">
+                    <columns>
+                        <TableColumn fx:id="colId" prefWidth="55.0" text="ID"/>
+                        <TableColumn fx:id="colEmployeeName" prefWidth="140.0" text="Nhân viên"/>
+                        <TableColumn fx:id="colTitle" prefWidth="165.0" text="Tiêu đề"/>
+                        <TableColumn fx:id="colDescription" prefWidth="200.0" text="Mô tả"/>
+                        <TableColumn fx:id="colAssignedDate" prefWidth="105.0" text="Ngày giao"/>
+                        <TableColumn fx:id="colDeadline" prefWidth="105.0" text="Deadline"/>
+                        <TableColumn fx:id="colCompleted" prefWidth="90.0" text="Hoàn tất"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </HBox>
+    </VBox>
+</ScrollPane>
