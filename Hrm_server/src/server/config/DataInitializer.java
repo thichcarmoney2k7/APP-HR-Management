@@ -1,4 +1,4 @@
-package config;
+package server.config;
 
 import entity.Employee;
 import entity.User;
@@ -18,19 +18,23 @@ public class DataInitializer {
         return args -> {
             String adminEmail = "admin@hrm.com";
 
-            // Chỉ tạo nếu trong DB chưa có tài khoản này
+            // Xóa bản ghi bị lưu sai username trước đó (nếu có)
+            userRepository.findByUsername("Quản Lý Hệ Thống").ifPresent(wrongUser -> {
+                employeeRepository.findAll().stream()
+                        .filter(e -> e.getUser() != null && e.getUser().getId().equals(wrongUser.getId()))
+                        .forEach(employeeRepository::delete);
+                userRepository.delete(wrongUser);
+            });
+
             if (userRepository.findByUsername(adminEmail).isEmpty()) {
                 User adminUser = new User();
                 adminUser.setUsername(adminEmail);
-                // Lưu ý: Nếu AuthService của bạn có dùng BCryptPasswordEncoder thì bọc passwordEncoder.encode("123456")
-                adminUser.setPassword("123456");
-                adminUser.setUsername("Quản Lý Hệ Thống");
-                adminUser.setRole(Role.MANAGER); // Hoặc Role.MANAGER tùy theo enum Role của bạn
+                adminUser.setPassword("123456"); // Đổi thành passwordEncoder.encode("123456") nếu AuthService dùng BCrypt
+                adminUser.setRole(Role.MANAGER);
                 User savedUser = userRepository.save(adminUser);
 
-                // Tạo kèm hồ sơ Employee để quản lý có employeeId
                 Employee managerProfile = new Employee();
-                managerProfile.setUser(savedUser); // Sửa thành setUserId(savedUser.getId()) nếu entity dùng Long userId
+                managerProfile.setUser(savedUser);
                 managerProfile.setFullName("Quản Lý Hệ Thống");
                 managerProfile.setEmail(adminEmail);
                 managerProfile.setPosition("HR Manager");

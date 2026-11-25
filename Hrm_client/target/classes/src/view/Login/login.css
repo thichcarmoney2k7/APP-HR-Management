@@ -1,0 +1,187 @@
+.login-root {
+    -fx-font-family: "Segoe UI", "Inter", "Roboto", sans-serif;
+    -fx-background-color: linear-gradient(to bottom right, #eef2ff, #f8fafc, #ecfeff);
+}
+
+/* Cột trái */
+.brand-panel {
+    -fx-background-color: linear-gradient(to bottom right, #090d16, #1e1b4b, #1d4ed8, #0e7490);
+}
+
+.hero-brand {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 23px;
+    -fx-font-weight: bold;
+}
+
+.hero-subbrand {
+    -fx-text-fill: #7dd3fc;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.hero-headline {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 27px;
+    -fx-font-weight: bold;
+}
+
+.hero-desc {
+    -fx-text-fill: #e2e8f0;
+    -fx-font-size: 13.5px;
+    -fx-line-spacing: 3.5;
+}
+
+.feature-box {
+    -fx-background-color: rgba(255, 255, 255, 0.10);
+    -fx-background-radius: 14;
+    -fx-border-color: linear-gradient(to right, rgba(56, 189, 248, 0.75), rgba(192, 132, 252, 0.75), rgba(52, 211, 153, 0.75));
+    -fx-border-width: 1.5;
+    -fx-border-radius: 14;
+    -fx-padding: 15 18;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.28), 16, 0, 0, 5);
+}
+
+.feature-item {
+    -fx-text-fill: #f8fafc;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.role-pill-purple {
+    -fx-background-color: rgba(168, 85, 247, 0.28);
+    -fx-text-fill: #f3e8ff;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 12;
+    -fx-background-radius: 999;
+    -fx-border-color: rgba(216, 180, 254, 0.55);
+    -fx-border-radius: 999;
+}
+
+.role-pill-teal {
+    -fx-background-color: rgba(20, 184, 166, 0.28);
+    -fx-text-fill: #ccfbf1;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 12;
+    -fx-background-radius: 999;
+    -fx-border-color: rgba(94, 234, 212, 0.55);
+    -fx-border-radius: 999;
+}
+
+.role-pill-sky {
+    -fx-background-color: rgba(56, 189, 248, 0.28);
+    -fx-text-fill: #e0f2fe;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 12;
+    -fx-background-radius: 999;
+    -fx-border-color: rgba(125, 211, 252, 0.55);
+    -fx-border-radius: 999;
+}
+
+/* Cột phải */
+.form-side {
+    -fx-background-color: transparent;
+}
+
+.login-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 18;
+    -fx-border-color: linear-gradient(to right, #3b82f6, #8b5cf6, #06b6d4);
+    -fx-border-width: 1.5;
+    -fx-border-radius: 18;
+    -fx-padding: 28 32 30 32;
+    -fx-effect: dropshadow(gaussian, rgba(30, 41, 59, 0.14), 26, 0, 0, 10);
+}
+
+.card-top-bar {
+    -fx-background-color: linear-gradient(to right, #2563eb, #7c3aed, #06b6d4);
+    -fx-background-radius: 999;
+}
+
+.form-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.form-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #64748b;
+}
+
+.field-label {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.input-field {
+    -fx-background-color: #f8fafc;
+    -fx-text-fill: #0f172a;
+    -fx-prompt-text-fill: #94a3b8;
+    -fx-font-size: 13.5px;
+    -fx-padding: 11 13;
+    -fx-background-radius: 10;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 10;
+}
+
+.input-field:hover {
+    -fx-border-color: #93c5fd;
+}
+
+.input-field:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #4f46e5;
+    -fx-border-width: 1.8;
+    -fx-effect: dropshadow(gaussian, rgba(79, 70, 229, 0.16), 12, 0, 0, 0);
+}
+
+.primary-btn {
+    -fx-background-color: linear-gradient(to right, #2563eb, #4f46e5, #0891b2);
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 16;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(37, 99, 235, 0.32), 14, 0, 0, 4);
+}
+
+.primary-btn:hover {
+    -fx-background-color: linear-gradient(to right, #1d4ed8, #4338ca, #0e7490);
+    -fx-effect: dropshadow(gaussian, rgba(79, 70, 229, 0.44), 18, 0, 0, 6);
+}
+
+.primary-btn:pressed {
+    -fx-translate-y: 1;
+}
+
+.primary-btn:disabled {
+    -fx-opacity: 0.55;
+}
+
+.status-label {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+}
+
+.hint-text {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #64748b;
+}
+
+.link-accent {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4f46e5;
+}
+
+.footer-note {
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748b;
+}

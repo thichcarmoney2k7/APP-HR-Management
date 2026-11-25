@@ -23,11 +23,11 @@ import java.util.List;
 public class ManagerDashboardController {
 
     private static final String VIEW_OVERVIEW = "OVERVIEW";
-    private static final String VIEW_ATTENDANCE = "/view/Manager/AdminAttendance.fxml";
-    private static final String VIEW_CV_SCREENING = "/view/Manager/AdminCVScreening.fxml";
-    private static final String VIEW_EMPLOYEE_MGMT = "/view/Manager/AdminEmployeeMgmt.fxml";
-    private static final String VIEW_TASK_MGMT = "/view/Manager/AdminTask.fxml";
-    private static final String VIEW_KPI_MGMT = "/view/Manager/AdminKPI.fxml";
+    private static final String VIEW_ATTENDANCE = "/src/view/Manager/AdminAttendance.fxml";
+    private static final String VIEW_CV_SCREENING = "/src/view/Manager/AdminCVScreening.fxml";
+    private static final String VIEW_EMPLOYEE_MGMT = "/src/view/Manager/AdminEmployeeMgmt.fxml";
+    private static final String VIEW_TASK_MGMT = "/src/view/Manager/AdminTask.fxml";
+    private static final String VIEW_KPI_MGMT = "/src/view/Manager/AdminKPI.fxml";
 
     @FXML private BorderPane mainBorderPane;
     @FXML private VBox contentContainer;
@@ -131,7 +131,7 @@ public class ManagerDashboardController {
     public void handleLogout(ActionEvent event) {
         WebcamUtils.stopCamera();
         SessionManager.clear();
-        switchScene(event, "/view/Login.fxml", "AI HRM System - Đăng nhập");
+        switchScene(event, "/src/view/Login/Login.fxml", "AI HRM System - Đăng nhập");
     }
 
     private void navigateTo(String targetView, String title, boolean recordHistory) {

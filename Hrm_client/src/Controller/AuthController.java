@@ -147,16 +147,16 @@ public class AuthController {
 
         switch (role.toUpperCase()) {
             case "CANDIDATE":
-                switchScene(event, "/view/CandidateDashboard.fxml", "AI HRM - Cổng Ứng viên");
+                switchScene(event, "/src/view/Candidate/CandidateDashboard.fxml", "AI HRM - Cổng Ứng viên");
                 break;
 
             case "EMPLOYEE":
-                switchScene(event, "/view/EmployeeDashboard.fxml", "AI HRM - Không gian Nhân viên");
+                switchScene(event, "/src/view/Employees/EmployeeDashboard.fxml", "AI HRM - Không gian Nhân viên");
                 break;
 
             case "MANAGER":
             case "ADMIN":
-                switchScene(event, "/view/ManagerDashboard.fxml", "AI HRM - Bảng điều khiển Quản lý");
+                switchScene(event, "/src/view/Manager/ManagerDashboard.fxml", "AI HRM - Bảng điều khiển Quản lý");
                 break;
 
             default:

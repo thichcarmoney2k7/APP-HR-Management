@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" styleClass="cv-root" stylesheets="@manager.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controller.AdminCVScreeningController">
+
+    <VBox spacing="16.0" maxWidth="Infinity">
+        <padding>
+            <Insets bottom="24.0" left="22.0" right="22.0" top="10.0"/>
+        </padding>
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="16.0" maxWidth="Infinity" styleClass="cv-hero">
+            <ImageView fitHeight="76.0" fitWidth="112.0" preserveRatio="true">
+                <image>
+                    <Image url="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&amp;fit=crop&amp;w=500&amp;q=80"
+                           backgroundLoading="true"/>
+                </image>
+            </ImageView>
+            <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                <Label text="✦ AI RECRUITMENT &amp; CV SCREENING" styleClass="cv-hero-tag"/>
+                <Label text="Sàng lọc CV, Đánh giá AI &amp; Tuyển dụng" styleClass="cv-hero-title" wrapText="true"/>
+                <Label text="Lọc hồ sơ ứng viên, xem nhận xét từ AI, duyệt/từ chối hoặc chuyển ứng viên APPROVED thành nhân viên."
+                       styleClass="cv-hero-sub" wrapText="true"/>
+            </VBox>
+            <HBox alignment="CENTER_LEFT" spacing="8.0">
+                <ComboBox fx:id="cboStatusFilter" prefWidth="145.0" styleClass="cv-combo"/>
+                <Button onAction="#loadCandidates" text="↻ Tải lại" styleClass="cv-btn-reload"/>
+            </HBox>
+        </HBox>
+
+        <Label fx:id="lblStatusMessage" text="" styleClass="cv-status-msg" wrapText="true"/>
+
+        <!-- Bảng ứng viên -->
+        <VBox spacing="10.0" styleClass="cv-card-violet">
+            <Region prefHeight="5.0" maxWidth="Infinity" styleClass="cv-bar-violet"/>
+            <Label text="📋 Danh sách ứng viên" styleClass="cv-card-title"/>
+            <TableView fx:id="tblCandidates" prefHeight="235.0" maxWidth="Infinity" styleClass="cv-table">
+                <columns>
+                    <TableColumn fx:id="colId" prefWidth="65.0" text="ID"/>
+                    <TableColumn fx:id="colFullName" prefWidth="170.0" text="Họ tên"/>
+                    <TableColumn fx:id="colEmail" prefWidth="195.0" text="Email"/>
+                    <TableColumn fx:id="colPosition" prefWidth="160.0" text="Vị trí ứng tuyển"/>
+                    <TableColumn fx:id="colExperience" prefWidth="105.0" text="Kinh nghiệm"/>
+                    <TableColumn fx:id="colAiScore" prefWidth="95.0" text="Điểm AI"/>
+                    <TableColumn fx:id="colStatus" prefWidth="120.0" text="Trạng thái"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Nhận xét AI & Tuyển dụng -->
+        <HBox spacing="16.0" maxWidth="Infinity">
+            <VBox spacing="10.0" HBox.hgrow="ALWAYS" styleClass="cv-card-amber">
+                <Region prefHeight="5.0" maxWidth="Infinity" styleClass="cv-bar-amber"/>
+                <Label text="🤖 Chi tiết đánh giá CV &amp; Phỏng vấn từ AI" styleClass="cv-card-title"/>
+                <TextArea fx:id="txtAiFeedbackDetail" editable="false" prefHeight="150.0" wrapText="true"
+                          styleClass="cv-textarea"
+                          promptText="Chọn một ứng viên trên bảng để xem nhận xét chi tiết..."/>
+                <HBox spacing="10.0">
+                    <Button fx:id="btnApprove" onAction="#handleApproveCandidate" text="✓ Duyệt ứng viên"
+                            styleClass="cv-btn-approve"/>
+                    <Button fx:id="btnReject" onAction="#handleRejectCandidate" text="✕ Từ chối"
+                            styleClass="cv-btn-reject"/>
+                </HBox>
+            </VBox>
+
+            <VBox spacing="10.0" prefWidth="350.0" styleClass="cv-card-blue">
+                <Region prefHeight="5.0" maxWidth="Infinity" styleClass="cv-bar-blue"/>
+                <Label text="🎯 Tuyển dụng thành Nhân viên" styleClass="cv-card-title"/>
+                <Label text="Chỉ áp dụng cho ứng viên đang ở trạng thái APPROVED."
+                       styleClass="cv-card-desc" wrapText="true"/>
+                <TextField fx:id="txtOfferSalary" promptText="Lương đề xuất (VD: 15000000)"
+                           styleClass="cv-input"/>
+                <TextField fx:id="txtDepartmentId" promptText="Mã phòng ban (VD: 1)"
+                           styleClass="cv-input"/>
+                <Button fx:id="btnHireCandidate" maxWidth="Infinity" onAction="#handleHireCandidate"
+                        text="🚀 Xác nhận Tuyển dụng"
+                        styleClass="cv-btn-hire"/>
+            </VBox>
+        </HBox>
+    </VBox>
+</ScrollPane>

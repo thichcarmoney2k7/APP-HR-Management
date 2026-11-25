@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" styleClass="candidate-root" stylesheets="@candidate.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controller.UserInterviewController">
+
+    <VBox spacing="16.0" maxWidth="Infinity">
+        <padding>
+            <Insets bottom="24.0" left="22.0" right="22.0" top="10.0"/>
+        </padding>
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="16.0" maxWidth="Infinity" styleClass="cand-hero">
+            <ImageView fitHeight="76.0" fitWidth="112.0" preserveRatio="true">
+                <image>
+                    <Image url="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&amp;fit=crop&amp;w=500&amp;q=80"
+                           backgroundLoading="true"/>
+                </image>
+            </ImageView>
+            <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                <Label text="✦ BƯỚC 2 &amp; 3 • PHỎNG VẤN TRỰC TUYẾN CÙNG AI"
+                       style="-fx-text-fill: #fde047; -fx-font-size: 11.5px; -fx-font-weight: bold;"/>
+                <Label text="Nhận câu hỏi phỏng vấn, quay camera giám sát &amp; nộp bài"
+                       style="-fx-text-fill: #ffffff; -fx-font-size: 18px; -fx-font-weight: bold;" wrapText="true"/>
+                <Label text="Chỉ mở khóa khi CV đạt trạng thái APPROVED. Bấm 'Bắt đầu phỏng vấn AI' để bật camera và lấy câu hỏi."
+                       style="-fx-text-fill: #fdf4ff; -fx-font-size: 12.5px;" wrapText="true"/>
+            </VBox>
+            <Button fx:id="btnStartInterview" onAction="#handleStartInterview"
+                    styleClass="btn-cyan-blue" text="▶ Bắt đầu phỏng vấn AI"/>
+        </HBox>
+
+        <Label fx:id="lblStatusMessage" text="" style="-fx-font-weight: bold; -fx-font-size: 13px;" wrapText="true"/>
+
+        <!-- Hai cột: Trái (Camera giám sát + Kết quả đánh giá) | Phải (Câu hỏi & Câu trả lời) -->
+        <HBox spacing="16.0" maxWidth="Infinity">
+            <!-- Cột trái -->
+            <VBox spacing="16.0" prefWidth="420.0">
+                <VBox spacing="10.0" styleClass="card-purple">
+                    <Label text="📹 Camera giám sát phỏng vấn" styleClass="cand-card-title"
+                           style="-fx-text-fill: #7e22ce;"/>
+                    <VBox alignment="CENTER" prefHeight="230.0" maxWidth="Infinity"
+                          style="-fx-background-color: #0f172a; -fx-background-radius: 12; -fx-padding: 8;">
+                        <ImageView fx:id="imgWebcam" fitHeight="210.0" fitWidth="360.0" preserveRatio="true"/>
+                    </VBox>
+                    <Label text="Camera tự bật khi bấm 'Bắt đầu phỏng vấn AI' (nếu có thiết bị) và tự tắt sau khi nộp bài hoặc rời trang."
+                           styleClass="cand-card-desc" wrapText="true"/>
+                </VBox>
+
+                <VBox spacing="8.0" styleClass="card-amber">
+                    <Label text="📊 Trạng thái &amp; Kết quả từ AI" styleClass="cand-card-title"
+                           style="-fx-text-fill: #be123c;"/>
+                    <HBox spacing="14.0">
+                        <Label fx:id="lblAiScore" text="Điểm CV: -- / 100"
+                               style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #7e22ce;"/>
+                        <Label fx:id="lblCandidateStatus" text="Trạng thái: --"
+                               style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #0369a1;"/>
+                    </HBox>
+                    <TextArea fx:id="txtAiFeedback" editable="false" prefHeight="135.0" wrapText="true"
+                              styleClass="cand-input" promptText="Kết quả đánh giá phỏng vấn sẽ hiển thị tại đây..."/>
+                </VBox>
+            </VBox>
+
+            <!-- Cột phải: Câu hỏi & Trả lời -->
+            <VBox spacing="12.0" HBox.hgrow="ALWAYS" styleClass="card-cyan">
+                <Label text="🤖 Bộ câu hỏi phỏng vấn từ AI" styleClass="cand-card-title"
+                       style="-fx-text-fill: #0369a1;"/>
+                <TextArea fx:id="txtInterviewQuestions" editable="false" prefHeight="175.0" wrapText="true"
+                          styleClass="cand-input" promptText="Câu hỏi phỏng vấn sẽ xuất hiện tại đây sau khi bấm 'Bắt đầu phỏng vấn AI'..."/>
+
+                <Label text="✍️ Câu trả lời của bạn:" style="-fx-font-weight: bold;"/>
+                <TextArea fx:id="txtCandidateAnswers" prefHeight="195.0" wrapText="true"
+                          styleClass="cand-input" promptText="Nhập câu trả lời chi tiết cho từng câu hỏi tại đây..."/>
+
+                <Button fx:id="btnSubmitInterview" maxWidth="Infinity" onAction="#handleSubmitInterview"
+                        styleClass="btn-emerald-teal" text="✓ Nộp bài phỏng vấn cho AI chấm"/>
+            </VBox>
+        </HBox>
+    </VBox>
+</ScrollPane>

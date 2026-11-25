@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" styleClass="candidate-root" stylesheets="@candidate.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controller.UserInterviewController">
+
+    <VBox spacing="16.0" maxWidth="Infinity">
+        <padding>
+            <Insets bottom="24.0" left="22.0" right="22.0" top="10.0"/>
+        </padding>
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="16.0" maxWidth="Infinity" styleClass="cand-hero">
+            <ImageView fitHeight="76.0" fitWidth="112.0" preserveRatio="true">
+                <image>
+                    <Image url="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&amp;fit=crop&amp;w=500&amp;q=80"
+                           backgroundLoading="true"/>
+                </image>
+            </ImageView>
+            <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                <Label text="✦ BƯỚC 1 • SÀNG LỌC &amp; CHẤM ĐIỂM CV AI"
+                       style="-fx-text-fill: #fde047; -fx-font-size: 11.5px; -fx-font-weight: bold;"/>
+                <Label text="Nộp hồ sơ &amp; nội dung CV cho Gemini AI đánh giá"
+                       style="-fx-text-fill: #ffffff; -fx-font-size: 18px; -fx-font-weight: bold;" wrapText="true"/>
+                <Label text="Điền đầy đủ thông tin ứng tuyển và nội dung CV. Khi đạt điểm chuẩn (APPROVED), bạn có thể sang trang Phỏng vấn AI."
+                       style="-fx-text-fill: #fdf4ff; -fx-font-size: 12.5px;" wrapText="true"/>
+            </VBox>
+        </HBox>
+
+        <Label fx:id="lblStatusMessage" text="" style="-fx-font-weight: bold; -fx-font-size: 13px;" wrapText="true"/>
+
+        <!-- Hai cột: Trái (Form nộp CV) | Phải (Kết quả đánh giá CV từ AI) -->
+        <HBox spacing="16.0" maxWidth="Infinity">
+            <VBox spacing="10.0" HBox.hgrow="ALWAYS" styleClass="card-purple">
+                <Label text="📄 Thông tin &amp; Nội dung CV" styleClass="cand-card-title"
+                       style="-fx-text-fill: #7e22ce;"/>
+
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="125.0"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <Label text="Họ và tên:" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtFullName" promptText="Nhập họ tên" styleClass="cand-input"
+                               GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Email:" style="-fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtEmail" promptText="Email đăng nhập" styleClass="cand-input"
+                               GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="Số điện thoại:" style="-fx-font-weight: bold;" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtPhone" promptText="VD: 0912345678" styleClass="cand-input"
+                               GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <Label text="Vị trí ứng tuyển:" style="-fx-font-weight: bold;" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtPositionApplied" promptText="VD: Java Backend Developer" styleClass="cand-input"
+                               GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <Label text="Kinh nghiệm (năm):" style="-fx-font-weight: bold;" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtYearsOfExperience" promptText="VD: 2" styleClass="cand-input"
+                               GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <Label text="Nội dung CV / Kỹ năng / Dự án:" style="-fx-font-weight: bold;"/>
+                <TextArea fx:id="txtCvContent" prefHeight="190.0" wrapText="true" styleClass="cand-input"
+                          promptText="Dán nội dung CV, kinh nghiệm làm việc, kỹ năng chuyên môn và dự án nổi bật..."/>
+
+                <Button fx:id="btnSubmitCV" maxWidth="Infinity" onAction="#handleSubmitCV"
+                        styleClass="btn-pink-purple" text="✨ Nộp CV cho AI chấm điểm"/>
+            </VBox>
+
+            <VBox spacing="12.0" prefWidth="440.0" styleClass="card-amber">
+                <Label text="📊 Kết quả đánh giá CV từ AI" styleClass="cand-card-title"
+                       style="-fx-text-fill: #be123c;"/>
+
+                <HBox spacing="16.0"
+                      style="-fx-background-color: #fffbeb; -fx-background-radius: 10; -fx-border-color: #fde68a; -fx-border-radius: 10; -fx-padding: 12;">
+                    <Label fx:id="lblAiScore" text="Điểm CV: -- / 100"
+                           style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #7e22ce;"/>
+                    <Label fx:id="lblCandidateStatus" text="Trạng thái: --"
+                           style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #0369a1;"/>
+                </HBox>
+
+                <Label text="Nhận xét chi tiết từ Gemini AI:" style="-fx-font-weight: bold;"/>
+                <TextArea fx:id="txtAiFeedback" editable="false" prefHeight="290.0" wrapText="true"
+                          styleClass="cand-input" promptText="Nhận xét chi tiết từ AI sẽ hiển thị tại đây sau khi nộp CV..."/>
+            </VBox>
+        </HBox>
+    </VBox>
+</ScrollPane>

@@ -23,9 +23,9 @@ import java.util.List;
 public class EmployeeDashboardController {
 
     private static final String VIEW_OVERVIEW = "OVERVIEW";
-    private static final String VIEW_ATTENDANCE = "/view/Employee/UserAttendance.fxml";
-    private static final String VIEW_TASK = "/view/Employee/UserTask.fxml";
-    private static final String VIEW_KPI = "/view/Employee/UserKPI.fxml";
+    private static final String VIEW_ATTENDANCE = "/src/view/Employee/UserAttendance.fxml";
+    private static final String VIEW_TASK = "/src/view/Employee/UserTask.fxml";
+    private static final String VIEW_KPI = "/src/view/Employee/UserKPI.fxml";
 
     @FXML private BorderPane mainBorderPane;
     @FXML private VBox contentContainer;
@@ -113,7 +113,7 @@ public class EmployeeDashboardController {
     public void handleLogout(ActionEvent event) {
         WebcamUtils.stopCamera();
         SessionManager.clear();
-        switchScene(event, "/view/Login.fxml", "AI HRM System - Đăng nhập");
+        switchScene(event, "/src/view/Login.fxml", "AI HRM System - Đăng nhập");
     }
 
     private void navigateTo(String targetView, String title, boolean recordHistory) {

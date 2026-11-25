@@ -23,7 +23,7 @@ import java.util.List;
 public class CandidateDashboardController {
 
     private static final String VIEW_OVERVIEW = "OVERVIEW";
-    private static final String VIEW_INTERVIEW = "/view/Candidate/UserInterview.fxml";
+    private static final String VIEW_INTERVIEW = "/src/view/Candidate/UserInterview.fxml";
 
     @FXML private BorderPane mainBorderPane;
     @FXML private VBox contentContainer;
@@ -98,7 +98,7 @@ public class CandidateDashboardController {
     public void handleLogout(ActionEvent event) {
         WebcamUtils.stopCamera();
         SessionManager.clear();
-        switchScene(event, "/view/Login.fxml", "AI HRM System - Đăng nhập");
+        switchScene(event, "/src/view/Login.fxml", "AI HRM System - Đăng nhập");
     }
 
     private void navigateTo(String targetView, String title, boolean recordHistory) {

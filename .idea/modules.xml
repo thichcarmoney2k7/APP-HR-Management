@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/APP-HR-Management.iml" filepath="$PROJECT_DIR$/.idea/APP-HR-Management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Hrm_client/Hrm_client.iml" filepath="$PROJECT_DIR$/Hrm_client/Hrm_client.iml" />
     </modules>
   </component>
 </project>
